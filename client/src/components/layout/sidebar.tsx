@@ -77,7 +77,7 @@ export function Sidebar({ expanded, onToggle }: SidebarProps) {
               "flex flex-col",
               expanded ? "hidden lg:block" : "hidden"
             )}>
-              <span className="text-xl lg:text-2xl font-semibold text-foreground whitespace-nowrap">PANDU</span>
+              <span className="lg:text-2xl font-semibold text-foreground whitespace-nowrap text-[16px]">PANDU</span>
               <span className="text-gray-500 hidden sm:block text-[12px]">Sistem Pendukung Rekam Medis</span>
             </div>
           </div>
