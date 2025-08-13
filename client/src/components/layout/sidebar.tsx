@@ -27,11 +27,11 @@ const SidebarItem = ({ item, isActive, expanded }: { item: any; isActive: boolea
         <Link href={item.href}>
           <div
             className={cn(
-              "flex items-center px-3 py-2 rounded-lg transition-colors cursor-pointer",
+              "flex items-center px-3 py-2 rounded-lg transition-colors cursor-pointer link",
               expanded ? "lg:space-x-3" : "justify-center lg:justify-start lg:space-x-3",
               isActive
-                ? "bg-primary/10 text-primary font-medium"
-                : "hover:bg-gray-50 text-gray-600"
+                ? "bg-primary/10 selected font-bold"
+                : "hover:bg-accent/10"
             )}
           >
             <Icon size={16} className="flex-shrink-0" />

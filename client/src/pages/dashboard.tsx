@@ -102,8 +102,8 @@ export default function Dashboard() {
                   {stats?.completionRate || 0}%
                 </p>
               </div>
-              <div className="w-12 h-12 bg-indigo-100 rounded-lg flex items-center justify-center">
-                <TrendingUp className="text-indigo-600" size={24} />
+              <div className="w-12 h-12 bg-accent/10 rounded-lg flex items-center justify-center">
+                <TrendingUp className="text-accent" size={24} />
               </div>
             </div>
             <p className="text-success text-sm mt-4">
@@ -123,7 +123,7 @@ export default function Dashboard() {
               <div className="flex items-center justify-between">
                 <CardTitle>Recent Forms</CardTitle>
                 <Link href="/forms">
-                  <Button variant="ghost" size="sm" className="text-primary hover:text-primary/80">
+                  <Button variant="ghost" size="sm" className="link hover:text-link-hover">
                     View All
                   </Button>
                 </Link>
@@ -134,7 +134,7 @@ export default function Dashboard() {
                 <div className="space-y-4">
                   {recentForms.slice(0, 3).map((form: any) => (
                     <div key={form.id} className="flex items-center justify-between py-3 border-b border-gray-50 last:border-b-0">
-                      <Link href={`/form/${form.id}`} className="flex items-center space-x-3 flex-1 hover:bg-gray-50 p-2 rounded-lg transition-colors">
+                      <Link href={`/form/${form.id}`} className="flex items-center space-x-3 flex-1 hover:bg-accent/10 p-2 rounded-lg transition-colors link">
                         <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center">
                           <FileText className="text-primary" size={16} />
                         </div>
