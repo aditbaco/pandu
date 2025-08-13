@@ -7,6 +7,7 @@ import { FieldProperties } from "@/components/form-builder/field-properties";
 import { FormField } from "@/types/form";
 import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
+import { generateSlug } from "@shared/schema";
 
 export default function FormBuilder() {
   const [, setLocation] = useLocation();
@@ -69,8 +70,11 @@ export default function FormBuilder() {
       return;
     }
 
+    const slug = generateSlug(formName);
+    
     createFormMutation.mutate({
       name: formName,
+      slug: slug,
       description: formDescription,
       fields: formFields,
       status: "active",

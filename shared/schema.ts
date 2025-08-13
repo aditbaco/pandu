@@ -13,6 +13,7 @@ export const users = pgTable("users", {
 export const forms = pgTable("forms", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
   name: text("name").notNull(),
+  slug: text("slug").notNull().unique(),
   description: text("description"),
   fields: jsonb("fields").notNull().default('[]'),
   status: text("status", { enum: ["active", "inactive"] }).notNull().default("active"),
@@ -48,6 +49,7 @@ export const insertUserSchema = createInsertSchema(users).pick({
 
 export const insertFormSchema = createInsertSchema(forms).pick({
   name: true,
+  slug: true,
   description: true,
   fields: true,
   status: true,
@@ -67,3 +69,19 @@ export type InsertForm = z.infer<typeof insertFormSchema>;
 export type Form = typeof forms.$inferSelect;
 export type InsertFormSubmission = z.infer<typeof insertFormSubmissionSchema>;
 export type FormSubmission = typeof formSubmissions.$inferSelect;
+
+// Utility functions for field naming
+export function generateSlug(name: string): string {
+  return name
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '');
+}
+
+export function generateFieldName(fieldType: string, formSlug: string, uniqueId: string): string {
+  return `field_${fieldType}_${formSlug}_${uniqueId}`;
+}
+
+export function generateUniqueId(): string {
+  return Math.random().toString(36).substr(2, 9);
+}

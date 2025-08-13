@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { FormField } from "@/types/form";
 import { Edit, Trash2, GripVertical, MousePointer } from "lucide-react";
+import { generateSlug, generateUniqueId, generateFieldName } from "@shared/schema";
 
 interface FormDesignerProps {
   formName: string;
@@ -35,8 +36,11 @@ export function FormDesigner({
     e.preventDefault();
     const fieldData = JSON.parse(e.dataTransfer.getData('application/json'));
     
+    const formSlug = generateSlug(formName || 'untitled');
+    const uniqueId = generateUniqueId();
+    
     const newField: FormField = {
-      id: `field_${Date.now()}`,
+      id: generateFieldName(fieldData.type, formSlug, uniqueId),
       type: fieldData.type,
       label: fieldData.label,
       required: false,
