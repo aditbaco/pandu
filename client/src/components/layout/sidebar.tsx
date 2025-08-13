@@ -77,7 +77,7 @@ export function Sidebar({ expanded, onToggle }: SidebarProps) {
               "flex flex-col",
               expanded ? "hidden lg:block" : "hidden"
             )}>
-              <span className="lg:text-2xl font-semibold text-foreground whitespace-nowrap text-[16px]">PANDU</span>
+              <span className="lg:text-2xl font-semibold text-foreground whitespace-nowrap text-[30px]">PANDU</span>
             </div>
           </div>
           {/* Toggle button - always visible on desktop when expanded */}
