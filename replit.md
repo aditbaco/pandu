@@ -14,6 +14,7 @@ PANDU (Sistem Pendukung Rekam Medis Terpadu) is a full-stack web application tha
 - **Added Search Functionality**: Real-time search on forms-with-params page with filtering by form name and description
 - **Enhanced Navigation**: Added "Kembali ke Daftar Form" button on form submission pages to preserve medical workflow parameters
 - **Environment Configuration**: Created .env.example file with all necessary environment variables for application setup
+- **Laragon/Windows Support**: Added dotenv package, Windows batch scripts, and LARAGON-SETUP.md for local development deployment
 
 # User Preferences
 
