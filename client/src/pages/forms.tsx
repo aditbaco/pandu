@@ -125,12 +125,7 @@ export default function Forms() {
                   onChange={(e) => setSearchTerm(e.target.value)}
                 />
               </div>
-              <Link href="/builder">
-                <Button className="w-full lg:w-auto">
-                  <Plus className="mr-2" size={16} />
-                  New Form
-                </Button>
-              </Link>
+              
             </div>
           </div>
         </CardHeader>
