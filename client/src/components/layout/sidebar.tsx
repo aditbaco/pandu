@@ -70,11 +70,17 @@ export function Sidebar({ expanded }: SidebarProps) {
       expanded ? "w-16 lg:w-64" : "w-16"
     )}>
       <div className="p-4 border-b border-border">
-        <div className="flex items-center lg:space-x-2">
+        <div className={cn(
+          "flex items-center",
+          expanded ? "lg:space-x-2" : "justify-center lg:justify-start lg:space-x-2"
+        )}>
           <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
             <Box className="text-white" size={16} />
           </div>
-          <span className="hidden lg:block text-lg font-semibold text-foreground">FormCraft</span>
+          <span className={cn(
+            "text-lg font-semibold text-foreground whitespace-nowrap",
+            expanded ? "hidden lg:block" : "hidden"
+          )}>FormCraft</span>
         </div>
       </div>
       
@@ -84,11 +90,15 @@ export function Sidebar({ expanded }: SidebarProps) {
             key={item.href} 
             item={item} 
             isActive={location === item.href}
+            expanded={expanded}
           />
         ))}
         
         <div className="pt-6">
-          <div className="hidden lg:block text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">
+          <div className={cn(
+            "text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3",
+            expanded ? "hidden lg:block" : "hidden"
+          )}>
             Settings
           </div>
           <div className="lg:hidden border-t border-gray-200 my-4"></div>
@@ -97,6 +107,7 @@ export function Sidebar({ expanded }: SidebarProps) {
               key={item.href} 
               item={item} 
               isActive={location === item.href}
+              expanded={expanded}
             />
           ))}
         </div>
