@@ -34,7 +34,7 @@ export default function Forms() {
   const { toast } = useToast();
   const queryClient = useQueryClient();
 
-  const { data: forms, isLoading } = useQuery<Form[]>({
+  const { data: forms, isLoading } = useQuery<(Form & { submissionCount: number })[]>({
     queryKey: ["/api/forms"],
   });
 
@@ -153,73 +153,174 @@ export default function Forms() {
               )}
             </div>
           ) : (
-            <div className="hidden lg:block">
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead>Form Name</TableHead>
-                    <TableHead>Status</TableHead>
-                    <TableHead>Submissions</TableHead>
-                    <TableHead>Created</TableHead>
-                    <TableHead>Actions</TableHead>
-                  </TableRow>
-                </TableHeader>
-              <TableBody>
+            <>
+              {/* Desktop Table View */}
+              <div className="hidden lg:block">
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>Form Name</TableHead>
+                      <TableHead>Status</TableHead>
+                      <TableHead>Submissions</TableHead>
+                      <TableHead>Created</TableHead>
+                      <TableHead>Actions</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                <TableBody>
+                  {filteredForms.map((form) => (
+                    <TableRow key={form.id}>
+                      <TableCell>
+                        <div className="flex items-center space-x-3">
+                          <div className="w-8 h-8 bg-primary/10 rounded-lg flex items-center justify-center">
+                            <FileText className="text-primary" size={16} />
+                          </div>
+                          <div>
+                            <div className="text-sm font-medium text-foreground">{form.name}</div>
+                            {form.description && (
+                              <div className="text-sm text-gray-500">{form.description}</div>
+                            )}
+                          </div>
+                        </div>
+                      </TableCell>
+                      <TableCell>
+                        <Badge 
+                          variant={form.status === 'active' ? 'default' : 'secondary'}
+                          className={form.status === 'active' ? 'bg-success text-success-foreground' : ''}
+                        >
+                          {form.status === 'active' ? 'Active' : 'Inactive'}
+                        </Badge>
+                      </TableCell>
+                      <TableCell className="text-sm text-foreground">
+                        {form.submissionCount || 0}
+                      </TableCell>
+                      <TableCell className="text-sm text-gray-500">
+                        {new Date(form.createdAt).toLocaleDateString()}
+                      </TableCell>
+                      <TableCell>
+                        <div className="flex space-x-2">
+                          <Link href={`/form/${form.id}`}>
+                            <Button variant="ghost" size="sm" title="Fill Form">
+                              <ExternalLink className="h-4 w-4" />
+                            </Button>
+                          </Link>
+                          <Button variant="ghost" size="sm" title="Edit">
+                            <Edit className="h-4 w-4" />
+                          </Button>
+                          <Link href={`/submissions?form=${form.id}`}>
+                            <Button variant="ghost" size="sm" title="View Submissions">
+                              <Eye className="h-4 w-4" />
+                            </Button>
+                          </Link>
+                          <Button 
+                            variant="ghost" 
+                            size="sm" 
+                            title="Duplicate"
+                            onClick={() => duplicateFormMutation.mutate(form)}
+                            disabled={duplicateFormMutation.isPending}
+                          >
+                            <Copy className="h-4 w-4" />
+                          </Button>
+                          <AlertDialog>
+                            <AlertDialogTrigger asChild>
+                              <Button variant="ghost" size="sm" title="Delete">
+                                <Trash2 className="h-4 w-4" />
+                              </Button>
+                            </AlertDialogTrigger>
+                            <AlertDialogContent>
+                              <AlertDialogHeader>
+                                <AlertDialogTitle>Delete Form</AlertDialogTitle>
+                                <AlertDialogDescription>
+                                  Are you sure you want to delete "{form.name}"? This action cannot be undone
+                                  and will also delete all associated submissions.
+                                </AlertDialogDescription>
+                              </AlertDialogHeader>
+                              <AlertDialogFooter>
+                                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                <AlertDialogAction
+                                  onClick={() => deleteFormMutation.mutate(form.id)}
+                                  disabled={deleteFormMutation.isPending}
+                                  className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+                                >
+                                  Delete
+                                </AlertDialogAction>
+                              </AlertDialogFooter>
+                            </AlertDialogContent>
+                          </AlertDialog>
+                        </div>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+                </Table>
+              </div>
+
+              {/* Mobile Card View */}
+              <div className="lg:hidden space-y-4 p-4">
                 {filteredForms.map((form) => (
-                  <TableRow key={form.id}>
-                    <TableCell>
-                      <div className="flex items-center space-x-3">
-                        <div className="w-8 h-8 bg-primary/10 rounded-lg flex items-center justify-center">
-                          <FileText className="text-primary" size={16} />
+                  <Card key={form.id}>
+                    <CardContent className="p-4">
+                      <div className="flex items-start justify-between mb-3">
+                        <div className="flex items-center space-x-3">
+                          <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center">
+                            <FileText className="text-primary" size={18} />
+                          </div>
+                          <div>
+                            <h4 className="font-medium text-foreground">{form.name}</h4>
+                            {form.description && (
+                              <p className="text-sm text-gray-500 mt-1">{form.description}</p>
+                            )}
+                          </div>
+                        </div>
+                        <Badge 
+                          variant={form.status === 'active' ? 'default' : 'secondary'}
+                          className={form.status === 'active' ? 'bg-success text-success-foreground' : ''}
+                        >
+                          {form.status === 'active' ? 'Active' : 'Inactive'}
+                        </Badge>
+                      </div>
+                      
+                      <div className="grid grid-cols-2 gap-4 mb-4">
+                        <div>
+                          <p className="text-xs text-gray-500">Submissions</p>
+                          <p className="font-medium">{form.submissionCount || 0}</p>
                         </div>
                         <div>
-                          <div className="text-sm font-medium text-foreground">{form.name}</div>
-                          {form.description && (
-                            <div className="text-sm text-gray-500">{form.description}</div>
-                          )}
+                          <p className="text-xs text-gray-500">Created</p>
+                          <p className="font-medium">{new Date(form.createdAt).toLocaleDateString()}</p>
                         </div>
                       </div>
-                    </TableCell>
-                    <TableCell>
-                      <Badge 
-                        variant={form.status === 'active' ? 'default' : 'secondary'}
-                        className={form.status === 'active' ? 'bg-success text-success-foreground' : ''}
-                      >
-                        {form.status === 'active' ? 'Active' : 'Inactive'}
-                      </Badge>
-                    </TableCell>
-                    <TableCell className="text-sm text-foreground">0</TableCell>
-                    <TableCell className="text-sm text-gray-500">
-                      {new Date(form.createdAt).toLocaleDateString()}
-                    </TableCell>
-                    <TableCell>
-                      <div className="flex space-x-2">
+                      
+                      <div className="flex flex-wrap gap-2">
                         <Link href={`/form/${form.id}`}>
-                          <Button variant="ghost" size="sm" title="Fill Form">
-                            <ExternalLink className="h-4 w-4" />
+                          <Button variant="outline" size="sm">
+                            <ExternalLink className="mr-1 h-3 w-3" />
+                            Fill
                           </Button>
                         </Link>
-                        <Button variant="ghost" size="sm" title="Edit">
-                          <Edit className="h-4 w-4" />
+                        <Button variant="outline" size="sm">
+                          <Edit className="mr-1 h-3 w-3" />
+                          Edit
                         </Button>
                         <Link href={`/submissions?form=${form.id}`}>
-                          <Button variant="ghost" size="sm" title="View Submissions">
-                            <Eye className="h-4 w-4" />
+                          <Button variant="outline" size="sm">
+                            <Eye className="mr-1 h-3 w-3" />
+                            View
                           </Button>
                         </Link>
                         <Button 
-                          variant="ghost" 
-                          size="sm" 
-                          title="Duplicate"
+                          variant="outline" 
+                          size="sm"
                           onClick={() => duplicateFormMutation.mutate(form)}
                           disabled={duplicateFormMutation.isPending}
                         >
-                          <Copy className="h-4 w-4" />
+                          <Copy className="mr-1 h-3 w-3" />
+                          Copy
                         </Button>
                         <AlertDialog>
                           <AlertDialogTrigger asChild>
-                            <Button variant="ghost" size="sm" title="Delete">
-                              <Trash2 className="h-4 w-4" />
+                            <Button variant="outline" size="sm">
+                              <Trash2 className="mr-1 h-3 w-3" />
+                              Delete
                             </Button>
                           </AlertDialogTrigger>
                           <AlertDialogContent>
@@ -243,12 +344,11 @@ export default function Forms() {
                           </AlertDialogContent>
                         </AlertDialog>
                       </div>
-                    </TableCell>
-                  </TableRow>
+                    </CardContent>
+                  </Card>
                 ))}
-              </TableBody>
-              </Table>
-            </div>
+              </div>
+            </>
           )}
         </CardContent>
       </Card>
