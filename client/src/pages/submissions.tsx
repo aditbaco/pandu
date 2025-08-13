@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useLocation } from "wouter";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -46,13 +47,27 @@ export default function Submissions() {
   const [selectedSubmission, setSelectedSubmission] = useState<FormSubmission | null>(null);
   const { toast } = useToast();
   const queryClient = useQueryClient();
+  const [location] = useLocation();
+
+  // Handle URL parameters to pre-select form
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const formParam = urlParams.get('form');
+    if (formParam) {
+      setSelectedFormId(formParam);
+    }
+  }, [location]);
 
   const { data: forms } = useQuery<Form[]>({
     queryKey: ["/api/forms"],
   });
 
   const { data: submissions, isLoading } = useQuery<FormSubmission[]>({
-    queryKey: ["/api/submissions", selectedFormId !== "all" ? selectedFormId : undefined],
+    queryKey: ["/api/submissions", selectedFormId],
+    queryFn: () => {
+      const url = selectedFormId === "all" ? "/api/submissions" : `/api/submissions?formId=${selectedFormId}`;
+      return fetch(url).then(res => res.json());
+    }
   });
 
   const deleteSubmissionMutation = useMutation({

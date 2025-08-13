@@ -202,7 +202,7 @@ export default function Forms() {
                         <Button variant="ghost" size="sm" title="Edit">
                           <Edit className="h-4 w-4" />
                         </Button>
-                        <Link href="/submissions">
+                        <Link href={`/submissions?form=${form.id}`}>
                           <Button variant="ghost" size="sm" title="View Submissions">
                             <Eye className="h-4 w-4" />
                           </Button>
