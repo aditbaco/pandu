@@ -18,10 +18,6 @@ const navigationItems = [
   { href: "/submissions", label: "Submissions", icon: Inbox },
 ];
 
-const settingsItems = [
-  { href: "/builder", label: "Form Builder", icon: Plus },
-];
-
 const SidebarItem = ({ item, isActive, expanded }: { item: any; isActive: boolean; expanded: boolean }) => {
   const Icon = item.icon;
   
@@ -106,24 +102,7 @@ export function Sidebar({ expanded, onToggle }: SidebarProps) {
             expanded={expanded}
           />
         ))}
-        
-        <div className="pt-6">
-          <div className={cn(
-            "text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3",
-            expanded ? "hidden lg:block" : "hidden"
-          )}>
-            Settings
-          </div>
-          <div className="lg:hidden border-t border-gray-200 my-4"></div>
-          {settingsItems.map((item) => (
-            <SidebarItem 
-              key={item.href} 
-              item={item} 
-              isActive={location === item.href}
-              expanded={expanded}
-            />
-          ))}
-        </div>
+
       </nav>
     </div>
   );

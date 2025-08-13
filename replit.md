@@ -7,7 +7,7 @@ PANDU (Sistem Pendukung Rekam Medis Terpadu) is a full-stack web application tha
 - **Extended Database Schema**: Added new columns to form_submissions table (kunjungan_id, nopen, norm, oleh) for medical data tracking, fixed nopen field to 10 characters
 - **Enhanced Submission Details**: Added kunjungan, nopen, and norm fields to submission detail view with auto-filled "submitted by" using oleh parameter
 - **Updated CSV Export**: Enhanced export functionality to include new medical fields (kunjungan, nopen, norm, oleh)
-- **Enhanced Sidebar**: Added collapsible sidebar functionality with toggle button positioned next to PANDU logo, moved Form Builder to Settings section
+- **Enhanced Sidebar**: Added collapsible sidebar functionality with toggle button positioned next to PANDU logo, removed Settings section and Form Builder menu (accessible via direct URL /builder)
 - **Rebranding to PANDU**: Changed application name from FormCraft to PANDU (Sistem Pendukung Rekam Medis Terpadu) with new logo integration
 - **Improved Radio Buttons**: Updated radio button layout to display in 3-column grid for better space utilization
 - **Mobile-Responsive Design**: Completed full mobile optimization across all pages and components
