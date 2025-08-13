@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useMutation, useQueryClient, useQuery } from "@tanstack/react-query";
 import { useLocation } from "wouter";
 import { FieldPalette } from "@/components/form-builder/field-palette";
+import { MobileFieldPalette } from "@/components/form-builder/mobile-field-palette";
 import { FormDesigner } from "@/components/form-builder/form-designer";
 import { FieldProperties } from "@/components/form-builder/field-properties";
 import { FormField } from "@/types/form";
@@ -104,40 +105,43 @@ export default function FormBuilder() {
   };
 
   return (
-    <div className="p-4 lg:p-6 h-full">
-      <div className="flex flex-col lg:grid lg:grid-cols-4 gap-4 lg:gap-6 h-full">
-        {/* Field Palette - Hidden on mobile, shown in modal */}
-        <div className="hidden lg:block lg:col-span-1">
-          <FieldPalette />
-        </div>
+    <div className="h-full relative">
+      {/* Mobile Field Palette - Fixed at top */}
+      <div className="lg:hidden">
+        <MobileFieldPalette />
+      </div>
 
-        {/* Form Designer */}
-        <div className="flex-1 lg:col-span-2">
-          <FormDesigner
-            formName={formName}
-            formDescription={formDescription}
-            formFields={formFields}
-            onFormNameChange={setFormName}
-            onFormDescriptionChange={setFormDescription}
-            onFieldsChange={setFormFields}
-            onSave={handleSave}
-            onPreview={handlePreview}
-            selectedFieldId={selectedFieldId}
-            onFieldSelect={setSelectedFieldId}
-          />
-        </div>
+      {/* Main Content with top padding on mobile */}
+      <div className="p-4 lg:p-6 h-full pt-20 lg:pt-6">
+        <div className="flex flex-col lg:grid lg:grid-cols-4 gap-4 lg:gap-6 h-full">
+          {/* Field Palette - Desktop only */}
+          <div className="hidden lg:block lg:col-span-1">
+            <FieldPalette />
+          </div>
 
-        {/* Field Properties Panel - Show below on mobile */}
-        <div className="lg:col-span-1">
-          <FieldProperties
-            selectedField={selectedField}
-            onFieldUpdate={handleFieldUpdate}
-          />
-        </div>
+          {/* Form Designer - Scrollable on mobile */}
+          <div className="flex-1 lg:col-span-2 overflow-y-auto lg:overflow-visible">
+            <FormDesigner
+              formName={formName}
+              formDescription={formDescription}
+              formFields={formFields}
+              onFormNameChange={setFormName}
+              onFormDescriptionChange={setFormDescription}
+              onFieldsChange={setFormFields}
+              onSave={handleSave}
+              onPreview={handlePreview}
+              selectedFieldId={selectedFieldId}
+              onFieldSelect={setSelectedFieldId}
+            />
+          </div>
 
-        {/* Mobile Field Palette - Show as floating button */}
-        <div className="lg:hidden fixed bottom-4 right-4">
-          <FieldPalette />
+          {/* Field Properties Panel */}
+          <div className="lg:col-span-1">
+            <FieldProperties
+              selectedField={selectedField}
+              onFieldUpdate={handleFieldUpdate}
+            />
+          </div>
         </div>
       </div>
     </div>
