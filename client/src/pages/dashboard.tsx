@@ -182,7 +182,7 @@ export default function Dashboard() {
                     </div>
                     <div className="text-left">
                       <p className="font-medium text-foreground">Create New Form</p>
-                      <p className="text-sm text-gray-500">Start with drag & drop builder</p>
+                      <p className="text-sm text-gray-500">Drag & drop builder</p>
                     </div>
                   </div>
                 </Button>
@@ -196,7 +196,7 @@ export default function Dashboard() {
                     </div>
                     <div className="text-left">
                       <p className="font-medium text-foreground">View Submissions</p>
-                      <p className="text-sm text-gray-500">Review form responses</p>
+                      <p className="text-sm text-gray-500">Review responses</p>
                     </div>
                   </div>
                 </Button>
