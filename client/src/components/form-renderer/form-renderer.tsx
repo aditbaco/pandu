@@ -3,6 +3,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
+import { useLocation } from "wouter";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -36,6 +37,7 @@ export function FormRenderer({ formData, onSubmitSuccess, kunjunganId, nopen, no
   });
   const { toast } = useToast();
   const queryClient = useQueryClient();
+  const [, setLocation] = useLocation();
 
   // Create dynamic validation schema based on form fields
   const createValidationSchema = (fields: FormFieldType[]) => {
@@ -110,13 +112,21 @@ export function FormRenderer({ formData, onSubmitSuccess, kunjunganId, nopen, no
       return response.json();
     },
     onSuccess: () => {
-      setIsSubmitted(true);
       toast({
         title: "Success",
         description: "Your form has been submitted successfully!",
       });
       queryClient.invalidateQueries({ queryKey: ["/api/submissions"] });
-      onSubmitSuccess?.();
+      
+      // Redirect to forms page with parameters if we have them
+      if (kunjunganId && nopen && norm && oleh) {
+        // Create URL with parameters for forms list page
+        const formsUrl = `/forms/${kunjunganId}/${nopen}/${norm}/${oleh}`;
+        setTimeout(() => setLocation(formsUrl), 1000); // Small delay to show success message
+      } else {
+        setIsSubmitted(true);
+        onSubmitSuccess?.();
+      }
     },
     onError: (error: Error) => {
       toast({

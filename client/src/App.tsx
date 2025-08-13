@@ -12,6 +12,7 @@ import FormBuilder from "@/pages/form-builder";
 import Submissions from "@/pages/submissions";
 import FormSubmit from "@/pages/form-submit";
 import { FormSubmitWithParams } from "@/pages/form-submit-with-params";
+import FormsWithParams from "@/pages/forms-with-params";
 import NotFound from "@/pages/not-found";
 
 const routeConfig: Record<string, { title: string; subtitle: string }> = {
@@ -31,6 +32,7 @@ function Router() {
       <Route path="/" component={Dashboard} />
       <Route path="/dashboard" component={Dashboard} />
       <Route path="/forms" component={Forms} />
+      <Route path="/forms/:kunjunganId/:nopen/:norm/:oleh" component={FormsWithParams} />
       <Route path="/builder" component={FormBuilder} />
       <Route path="/submissions" component={Submissions} />
       <Route path="/form/:id" component={FormSubmit} />
