@@ -78,7 +78,7 @@ export function Sidebar({ expanded, onToggle }: SidebarProps) {
               expanded ? "hidden lg:block" : "hidden"
             )}>
               <span className="text-xl lg:text-2xl font-semibold text-foreground whitespace-nowrap">PANDU</span>
-              <span className="text-gray-500 text-sm hidden sm:block">Sistem Pendukung Rekam Medis</span>
+              <span className="text-gray-500 hidden sm:block text-[12px]">Sistem Pendukung Rekam Medis</span>
             </div>
           </div>
           {/* Toggle button - always visible on desktop when expanded */}
@@ -95,7 +95,6 @@ export function Sidebar({ expanded, onToggle }: SidebarProps) {
           </Button>
         </div>
       </div>
-      
       <nav className="p-4 space-y-2">
         {navigationItems.map((item) => (
           <SidebarItem 
