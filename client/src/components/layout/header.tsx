@@ -18,15 +18,7 @@ export function Header({ title, subtitle }: HeaderProps) {
           <Button variant="ghost" size="sm" className="p-2 hidden sm:flex">
             <Bell className="h-5 w-5 text-gray-400" />
           </Button>
-          <div className="flex items-center space-x-3">
-            <div className="text-right hidden sm:block">
-              <div className="text-sm font-medium text-foreground">Admin User</div>
-              <div className="text-xs text-gray-500">Administrator</div>
-            </div>
-            <div className="w-8 h-8 bg-secondary rounded-full flex items-center justify-center text-white font-semibold text-sm">
-              A
-            </div>
-          </div>
+          
         </div>
       </div>
     </header>
