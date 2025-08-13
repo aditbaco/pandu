@@ -7,7 +7,6 @@ import {
   FileText,
   Plus,
   Inbox,
-  BarChart3,
   Users,
   Settings,
   Box,
@@ -20,7 +19,6 @@ const navigationItems = [
   { href: "/forms", label: "Forms", icon: FileText },
   { href: "/builder", label: "Form Builder", icon: Plus },
   { href: "/submissions", label: "Submissions", icon: Inbox },
-  { href: "/analytics", label: "Analytics", icon: BarChart3 },
 ];
 
 const settingsItems = [
