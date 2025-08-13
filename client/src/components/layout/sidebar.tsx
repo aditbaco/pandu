@@ -62,7 +62,7 @@ export function Sidebar({ expanded, onToggle }: SidebarProps) {
       "bg-white border-r border-border shadow-sm transition-all duration-300",
       expanded ? "w-16 lg:w-64" : "w-16"
     )}>
-      <div className="p-4 border-b border-border relative">
+      <div className="px-4 lg:px-6 py-4 border-b border-border relative">
         <div className="flex items-center justify-between">
           <div className={cn(
             "flex items-center",
@@ -74,7 +74,7 @@ export function Sidebar({ expanded, onToggle }: SidebarProps) {
               className="w-8 h-8 rounded-lg object-cover"
             />
             <span className={cn(
-              "text-lg font-semibold text-foreground whitespace-nowrap",
+              "text-xl lg:text-2xl font-semibold text-foreground whitespace-nowrap",
               expanded ? "hidden lg:block" : "hidden"
             )}>PANDU</span>
           </div>
