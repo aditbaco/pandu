@@ -202,17 +202,7 @@ export default function Dashboard() {
                 </Button>
               </Link>
 
-              <Button variant="outline" className="w-full justify-start h-auto p-4">
-                <div className="flex items-center space-x-3">
-                  <div className="w-10 h-10 bg-success rounded-lg flex items-center justify-center">
-                    <Download className="text-white" size={20} />
-                  </div>
-                  <div className="text-left">
-                    <p className="font-medium text-foreground">Export Data</p>
-                    <p className="text-sm text-gray-500">Download CSV or Excel</p>
-                  </div>
-                </div>
-              </Button>
+              
             </CardContent>
           </Card>
         </div>
