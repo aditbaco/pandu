@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useState, useEffect } from "react";
+import { useMutation, useQueryClient, useQuery } from "@tanstack/react-query";
 import { useLocation } from "wouter";
 import { FieldPalette } from "@/components/form-builder/field-palette";
 import { FormDesigner } from "@/components/form-builder/form-designer";
@@ -18,6 +18,20 @@ export default function FormBuilder() {
   const [formDescription, setFormDescription] = useState("");
   const [formFields, setFormFields] = useState<FormField[]>([]);
   const [selectedFieldId, setSelectedFieldId] = useState<string | null>(null);
+
+  // Fetch existing forms to auto-generate form name
+  const { data: existingForms } = useQuery({
+    queryKey: ["/api/forms"],
+    queryFn: () => fetch("/api/forms").then(res => res.json()),
+  });
+
+  // Auto-generate form name when component mounts
+  useEffect(() => {
+    if (existingForms && formName === "") {
+      const formCount = existingForms.length + 1;
+      setFormName(`Form ${formCount}`);
+    }
+  }, [existingForms, formName]);
 
   const createFormMutation = useMutation({
     mutationFn: async (formData: any) => {

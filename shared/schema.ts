@@ -74,8 +74,8 @@ export type FormSubmission = typeof formSubmissions.$inferSelect;
 export function generateSlug(name: string): string {
   return name
     .toLowerCase()
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/^-+|-+$/g, '');
+    .replace(/[^a-z0-9]+/g, '_')
+    .replace(/^_+|_+$/g, '');
 }
 
 export function generateFieldName(fieldType: string, formSlug: string, uniqueId: string): string {

@@ -36,7 +36,7 @@ export function FormDesigner({
     e.preventDefault();
     const fieldData = JSON.parse(e.dataTransfer.getData('application/json'));
     
-    const formSlug = generateSlug(formName || 'untitled');
+    const formSlug = generateSlug(formName || 'form');
     const uniqueId = generateUniqueId();
     
     const newField: FormField = {
