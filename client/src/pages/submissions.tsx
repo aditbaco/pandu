@@ -101,16 +101,20 @@ export default function Submissions() {
     }
 
     // Create CSV content
-    const headers = ["ID", "Form", "Submitted By", "Email", "Date", "Status"];
+    const headers = ["ID", "Form", "Submitted By", "Email", "Date", "Status", "Kunjungan", "Nopen", "Norm", "Oleh"];
     const csvContent = [
       headers.join(","),
       ...submissions.map(submission => [
         submission.id,
         forms?.find(f => f.id === submission.formId)?.name || "Unknown Form",
-        submission.submittedBy || "Anonymous",
+        submission.oleh || submission.submittedBy || "Anonymous",
         submission.submittedByEmail || "",
         new Date(submission.createdAt).toLocaleString(),
-        submission.status
+        submission.status,
+        submission.kunjunganId || "",
+        submission.nopen || "",
+        submission.norm || "",
+        submission.oleh || ""
       ].join(","))
     ].join("\n");
 
@@ -275,10 +279,45 @@ export default function Submissions() {
                                       Submitted By
                                     </label>
                                     <div className="text-sm text-gray-600">
-                                      {selectedSubmission.submittedBy || "Anonymous"} 
+                                      {selectedSubmission.oleh || selectedSubmission.submittedBy || "Anonymous"} 
                                       {selectedSubmission.submittedByEmail && ` (${selectedSubmission.submittedByEmail})`}
                                     </div>
                                   </div>
+                                  
+                                  {/* New medical fields */}
+                                  {selectedSubmission.kunjunganId && (
+                                    <div>
+                                      <label className="block text-sm font-medium text-foreground mb-1">
+                                        Kunjungan
+                                      </label>
+                                      <div className="text-sm text-gray-600">
+                                        {selectedSubmission.kunjunganId}
+                                      </div>
+                                    </div>
+                                  )}
+                                  
+                                  {selectedSubmission.nopen && (
+                                    <div>
+                                      <label className="block text-sm font-medium text-foreground mb-1">
+                                        Nopen
+                                      </label>
+                                      <div className="text-sm text-gray-600">
+                                        {selectedSubmission.nopen}
+                                      </div>
+                                    </div>
+                                  )}
+                                  
+                                  {selectedSubmission.norm && (
+                                    <div>
+                                      <label className="block text-sm font-medium text-foreground mb-1">
+                                        Norm
+                                      </label>
+                                      <div className="text-sm text-gray-600">
+                                        {selectedSubmission.norm}
+                                      </div>
+                                    </div>
+                                  )}
+                                  
                                   <div>
                                     <label className="block text-sm font-medium text-foreground mb-1">
                                       Submission Date

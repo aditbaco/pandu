@@ -98,6 +98,7 @@ export function FormSubmitWithParams() {
       const submissionData = {
         formId: form.id,
         data,
+        submittedBy: oleh || undefined, // Auto-fill submitted by with oleh parameter
         kunjunganId: kunjunganId || undefined,
         oleh: oleh ? parseInt(oleh, 10) : undefined,
       };
