@@ -106,27 +106,27 @@ export default function Forms() {
   }
 
   return (
-    <div className="p-6">
+    <div className="p-4 lg:p-6">
       <Card>
         <CardHeader>
-          <div className="flex items-center justify-between">
+          <div className="flex flex-col space-y-4 lg:flex-row lg:items-center lg:justify-between lg:space-y-0">
             <div>
               <h3 className="text-lg font-semibold text-foreground">Forms Management</h3>
               <p className="text-sm text-gray-500">Create, edit, and manage your forms</p>
             </div>
-            <div className="flex space-x-3">
+            <div className="flex flex-col space-y-3 lg:flex-row lg:space-y-0 lg:space-x-3">
               <div className="relative">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={16} />
                 <Input
                   type="text"
                   placeholder="Search forms..."
-                  className="pl-10 w-64"
+                  className="pl-10 w-full lg:w-64"
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                 />
               </div>
               <Link href="/builder">
-                <Button>
+                <Button className="w-full lg:w-auto">
                   <Plus className="mr-2" size={16} />
                   New Form
                 </Button>
@@ -153,16 +153,17 @@ export default function Forms() {
               )}
             </div>
           ) : (
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Form Name</TableHead>
-                  <TableHead>Status</TableHead>
-                  <TableHead>Submissions</TableHead>
-                  <TableHead>Created</TableHead>
-                  <TableHead>Actions</TableHead>
-                </TableRow>
-              </TableHeader>
+            <div className="hidden lg:block">
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>Form Name</TableHead>
+                    <TableHead>Status</TableHead>
+                    <TableHead>Submissions</TableHead>
+                    <TableHead>Created</TableHead>
+                    <TableHead>Actions</TableHead>
+                  </TableRow>
+                </TableHeader>
               <TableBody>
                 {filteredForms.map((form) => (
                   <TableRow key={form.id}>
@@ -246,7 +247,8 @@ export default function Forms() {
                   </TableRow>
                 ))}
               </TableBody>
-            </Table>
+              </Table>
+            </div>
           )}
         </CardContent>
       </Card>

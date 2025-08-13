@@ -1,5 +1,6 @@
 import { Link, useLocation } from "wouter";
 import { cn } from "@/lib/utils";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import {
   LayoutDashboard,
   FileText,
@@ -24,66 +25,69 @@ const settingsItems = [
   { href: "/settings", label: "Settings", icon: Settings },
 ];
 
+const SidebarItem = ({ item, isActive }: { item: any; isActive: boolean }) => {
+  const Icon = item.icon;
+  
+  return (
+    <Tooltip>
+      <TooltipTrigger asChild>
+        <Link href={item.href}>
+          <div
+            className={cn(
+              "flex items-center px-3 py-2 rounded-lg transition-colors cursor-pointer",
+              "lg:space-x-3", // Space only on large screens
+              isActive
+                ? "bg-primary/10 text-primary font-medium"
+                : "hover:bg-gray-50 text-gray-600"
+            )}
+          >
+            <Icon size={16} className="flex-shrink-0" />
+            <span className="hidden lg:block">{item.label}</span>
+          </div>
+        </Link>
+      </TooltipTrigger>
+      <TooltipContent side="right" className="lg:hidden">
+        {item.label}
+      </TooltipContent>
+    </Tooltip>
+  );
+};
+
 export function Sidebar() {
   const [location] = useLocation();
 
   return (
-    <div className="w-64 bg-white border-r border-border shadow-sm">
+    <div className="w-16 lg:w-64 bg-white border-r border-border shadow-sm">
       <div className="p-4 border-b border-border">
-        <div className="flex items-center space-x-2">
+        <div className="flex items-center lg:space-x-2">
           <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
             <Box className="text-white" size={16} />
           </div>
-          <span className="text-lg font-semibold text-foreground">FormCraft</span>
+          <span className="hidden lg:block text-lg font-semibold text-foreground">FormCraft</span>
         </div>
       </div>
       
       <nav className="p-4 space-y-2">
-        {navigationItems.map((item) => {
-          const Icon = item.icon;
-          const isActive = location === item.href;
-          
-          return (
-            <Link key={item.href} href={item.href}>
-              <div
-                className={cn(
-                  "flex items-center space-x-3 px-3 py-2 rounded-lg transition-colors cursor-pointer",
-                  isActive
-                    ? "bg-primary/10 text-primary font-medium"
-                    : "hover:bg-gray-50 text-gray-600"
-                )}
-              >
-                <Icon size={16} />
-                <span>{item.label}</span>
-              </div>
-            </Link>
-          );
-        })}
+        {navigationItems.map((item) => (
+          <SidebarItem 
+            key={item.href} 
+            item={item} 
+            isActive={location === item.href}
+          />
+        ))}
         
         <div className="pt-6">
-          <div className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">
+          <div className="hidden lg:block text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">
             Settings
           </div>
-          {settingsItems.map((item) => {
-            const Icon = item.icon;
-            const isActive = location === item.href;
-            
-            return (
-              <Link key={item.href} href={item.href}>
-                <div
-                  className={cn(
-                    "flex items-center space-x-3 px-3 py-2 rounded-lg transition-colors cursor-pointer",
-                    isActive
-                      ? "bg-primary/10 text-primary font-medium"
-                      : "hover:bg-gray-50 text-gray-600"
-                  )}
-                >
-                  <Icon size={16} />
-                  <span>{item.label}</span>
-                </div>
-              </Link>
-            );
-          })}
+          <div className="lg:hidden border-t border-gray-200 my-4"></div>
+          {settingsItems.map((item) => (
+            <SidebarItem 
+              key={item.href} 
+              item={item} 
+              isActive={location === item.href}
+            />
+          ))}
         </div>
       </nav>
     </div>

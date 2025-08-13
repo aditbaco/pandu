@@ -31,23 +31,23 @@ export default function Dashboard() {
   }
 
   return (
-    <div className="p-6">
+    <div className="p-4 lg:p-6">
       {/* Stats Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6 mb-6 lg:mb-8">
         <Card>
-          <CardContent className="p-6">
+          <CardContent className="p-4 lg:p-6">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium text-gray-500">Total Forms</p>
-                <p className="text-3xl font-semibold text-foreground mt-2">
+                <p className="text-2xl lg:text-3xl font-semibold text-foreground mt-2">
                   {stats?.totalForms || 0}
                 </p>
               </div>
-              <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center">
-                <FileText className="text-primary" size={24} />
+              <div className="w-10 h-10 lg:w-12 lg:h-12 bg-primary/10 rounded-lg flex items-center justify-center">
+                <FileText className="text-primary" size={20} />
               </div>
             </div>
-            <p className="text-success text-sm mt-4">
+            <p className="text-success text-xs lg:text-sm mt-4">
               <TrendingUp className="inline w-3 h-3 mr-1" />
               <span>Active forms available</span>
             </p>
@@ -55,19 +55,19 @@ export default function Dashboard() {
         </Card>
 
         <Card>
-          <CardContent className="p-6">
+          <CardContent className="p-4 lg:p-6">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium text-gray-500">Total Submissions</p>
-                <p className="text-3xl font-semibold text-foreground mt-2">
+                <p className="text-2xl lg:text-3xl font-semibold text-foreground mt-2">
                   {stats?.totalSubmissions || 0}
                 </p>
               </div>
-              <div className="w-12 h-12 bg-secondary/10 rounded-lg flex items-center justify-center">
-                <Inbox className="text-secondary" size={24} />
+              <div className="w-10 h-10 lg:w-12 lg:h-12 bg-secondary/10 rounded-lg flex items-center justify-center">
+                <Inbox className="text-secondary" size={20} />
               </div>
             </div>
-            <p className="text-success text-sm mt-4">
+            <p className="text-success text-xs lg:text-sm mt-4">
               <TrendingUp className="inline w-3 h-3 mr-1" />
               <span>Responses received</span>
             </p>
@@ -115,7 +115,7 @@ export default function Dashboard() {
       </div>
 
       {/* Recent Activity and Quick Actions */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 lg:gap-6">
         {/* Recent Forms */}
         <div className="lg:col-span-2">
           <Card>

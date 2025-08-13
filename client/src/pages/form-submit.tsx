@@ -40,8 +40,8 @@ export default function FormSubmit() {
 
   if (error || !form) {
     return (
-      <div className="min-h-screen bg-gray-50 py-12">
-        <div className="max-w-2xl mx-auto px-4">
+      <div className="min-h-screen bg-gray-50 py-6 lg:py-12">
+        <div className="max-w-2xl mx-auto px-4 lg:px-6">
           <Card>
             <CardContent className="p-8 text-center">
               <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -66,8 +66,8 @@ export default function FormSubmit() {
 
   if (form.status === 'inactive') {
     return (
-      <div className="min-h-screen bg-gray-50 py-12">
-        <div className="max-w-2xl mx-auto px-4">
+      <div className="min-h-screen bg-gray-50 py-6 lg:py-12">
+        <div className="max-w-2xl mx-auto px-4 lg:px-6">
           <Card>
             <CardContent className="p-8 text-center">
               <div className="w-16 h-16 bg-yellow-100 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -99,9 +99,9 @@ export default function FormSubmit() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 py-12">
-      <div className="max-w-4xl mx-auto px-4">
-        <div className="mb-6">
+    <div className="min-h-screen bg-gray-50 py-6 lg:py-12">
+      <div className="max-w-4xl mx-auto px-4 lg:px-6">
+        <div className="mb-4 lg:mb-6">
           <Link href="/">
             <Button variant="ghost" className="mb-4">
               <ArrowLeft className="mr-2" size={16} />
