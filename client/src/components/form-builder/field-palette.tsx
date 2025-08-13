@@ -20,6 +20,14 @@ const specialFields = [
   { type: 'date' as const, label: 'Date Picker', icon: 'Calendar' },
 ];
 
+const displayFields = [
+  { type: 'title' as const, label: 'Title', icon: 'Type' },
+  { type: 'heading' as const, label: 'Heading', icon: 'Heading1' },
+  { type: 'subheading' as const, label: 'Subheading', icon: 'Heading2' },
+  { type: 'divider' as const, label: 'Divider', icon: 'Minus' },
+  { type: 'image' as const, label: 'Static Image', icon: 'Image' },
+];
+
 export function FieldPalette() {
   return (
     <Card className="h-fit">
@@ -55,6 +63,17 @@ export function FieldPalette() {
           </h4>
           <div className="space-y-2">
             {specialFields.map((field) => (
+              <DraggableField key={field.type} field={field} />
+            ))}
+          </div>
+        </div>
+
+        <div>
+          <h4 className="text-sm font-medium text-gray-500 mb-3 uppercase tracking-wider">
+            Display Elements
+          </h4>
+          <div className="space-y-2">
+            {displayFields.map((field) => (
               <DraggableField key={field.type} field={field} />
             ))}
           </div>

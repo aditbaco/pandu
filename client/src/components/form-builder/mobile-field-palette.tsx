@@ -9,7 +9,11 @@ import {
   CircleDot, 
   CheckSquare, 
   Paperclip, 
-  Calendar 
+  Calendar,
+  Heading1,
+  Heading2,
+  Minus,
+  Image
 } from "lucide-react";
 
 const allFields = [
@@ -22,6 +26,11 @@ const allFields = [
   { type: 'checkbox' as const, label: 'Checkbox', icon: 'CheckSquare' },
   { type: 'file' as const, label: 'File Upload', icon: 'Paperclip' },
   { type: 'date' as const, label: 'Date Picker', icon: 'Calendar' },
+  { type: 'title' as const, label: 'Title', icon: 'Type' },
+  { type: 'heading' as const, label: 'Heading', icon: 'Heading1' },
+  { type: 'subheading' as const, label: 'Subheading', icon: 'Heading2' },
+  { type: 'divider' as const, label: 'Divider', icon: 'Minus' },
+  { type: 'image' as const, label: 'Static Image', icon: 'Image' },
 ];
 
 const iconComponents = {
@@ -34,6 +43,10 @@ const iconComponents = {
   CheckSquare,
   Paperclip,
   Calendar,
+  Heading1,
+  Heading2,
+  Minus,
+  Image,
 };
 
 export function MobileFieldPalette() {

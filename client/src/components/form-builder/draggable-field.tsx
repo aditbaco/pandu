@@ -1,4 +1,4 @@
-import { Type, Mail, AlignLeft, Hash, ChevronDown, CircleDot, CheckSquare, Paperclip, Calendar } from "lucide-react";
+import { Type, Mail, AlignLeft, Hash, ChevronDown, CircleDot, CheckSquare, Paperclip, Calendar, Heading1, Heading2, Minus, Image } from "lucide-react";
 import { FormField } from "@/types/form";
 
 interface DraggableFieldProps {
@@ -21,6 +21,10 @@ const iconMap = {
   CheckSquare,
   Paperclip,
   Calendar,
+  Heading1,
+  Heading2,
+  Minus,
+  Image,
 };
 
 export function DraggableField({ field, compact = false, icon }: DraggableFieldProps) {

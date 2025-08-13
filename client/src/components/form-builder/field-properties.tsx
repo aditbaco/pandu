@@ -64,23 +64,55 @@ export function FieldProperties({ selectedField, onFieldUpdate }: FieldPropertie
           />
         </div>
         
-        <div>
-          <Label htmlFor="placeholder" className="text-sm font-medium">Placeholder</Label>
-          <Input
-            id="placeholder"
-            value={selectedField.placeholder || ''}
-            onChange={(e) => updateField({ placeholder: e.target.value })}
-          />
-        </div>
-        
-        <div className="flex items-center space-x-2">
-          <Checkbox
-            id="required"
-            checked={selectedField.required}
-            onCheckedChange={(checked) => updateField({ required: !!checked })}
-          />
-          <Label htmlFor="required" className="text-sm font-medium">Required</Label>
-        </div>
+        {/* Text content for display fields */}
+        {['title', 'heading', 'subheading'].includes(selectedField.type) && (
+          <div>
+            <Label htmlFor="text" className="text-sm font-medium">Text Content</Label>
+            <Input
+              id="text"
+              value={selectedField.text || selectedField.label}
+              onChange={(e) => updateField({ text: e.target.value })}
+              placeholder="Enter text content"
+            />
+          </div>
+        )}
+
+        {/* Image URL for static images */}
+        {selectedField.type === 'image' && (
+          <div>
+            <Label htmlFor="imageUrl" className="text-sm font-medium">Image URL</Label>
+            <Input
+              id="imageUrl"
+              type="url"
+              value={selectedField.imageUrl || ''}
+              onChange={(e) => updateField({ imageUrl: e.target.value })}
+              placeholder="Enter image URL"
+            />
+          </div>
+        )}
+
+        {/* Only show placeholder and required for input fields */}
+        {!['title', 'heading', 'subheading', 'divider', 'image'].includes(selectedField.type) && (
+          <>
+            <div>
+              <Label htmlFor="placeholder" className="text-sm font-medium">Placeholder</Label>
+              <Input
+                id="placeholder"
+                value={selectedField.placeholder || ''}
+                onChange={(e) => updateField({ placeholder: e.target.value })}
+              />
+            </div>
+            
+            <div className="flex items-center space-x-2">
+              <Checkbox
+                id="required"
+                checked={selectedField.required}
+                onCheckedChange={(checked) => updateField({ required: !!checked })}
+              />
+              <Label htmlFor="required" className="text-sm font-medium">Required</Label>
+            </div>
+          </>
+        )}
 
         {needsOptions && (
           <div>

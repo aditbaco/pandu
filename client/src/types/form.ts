@@ -1,10 +1,12 @@
 export interface FormField {
   id: string;
-  type: 'text' | 'email' | 'textarea' | 'number' | 'select' | 'radio' | 'checkbox' | 'file' | 'date';
+  type: 'text' | 'email' | 'textarea' | 'number' | 'select' | 'radio' | 'checkbox' | 'file' | 'date' | 'title' | 'heading' | 'subheading' | 'divider' | 'image';
   label: string;
   placeholder?: string;
   required: boolean;
   options?: string[];
+  text?: string; // For title, heading, subheading
+  imageUrl?: string; // For static images
   validation?: {
     minLength?: number;
     maxLength?: number;

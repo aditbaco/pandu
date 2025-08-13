@@ -39,11 +39,20 @@ export function FormDesigner({
     const formSlug = generateSlug(formName || 'form');
     const uniqueId = generateUniqueId();
     
+    // Set defaults for display fields
+    const displayFieldDefaults: Record<string, Partial<FormField>> = {
+      title: { text: 'Enter your title here' },
+      heading: { text: 'Enter your heading here' },
+      subheading: { text: 'Enter your subheading here' },
+      image: { imageUrl: '' }
+    };
+    
     const newField: FormField = {
       id: generateFieldName(fieldData.type, formSlug, uniqueId),
       type: fieldData.type,
       label: fieldData.label,
       required: false,
+      ...displayFieldDefaults[fieldData.type] || {}
     };
 
     onFieldsChange([...formFields, newField]);
@@ -121,6 +130,53 @@ export function FormDesigner({
         case 'date':
           return (
             <Input type="date" disabled />
+          );
+        case 'title':
+          return (
+            <div className="text-center">
+              <h1 className="text-3xl font-bold text-foreground">
+                {field.text || field.label}
+              </h1>
+            </div>
+          );
+        case 'heading':
+          return (
+            <div>
+              <h2 className="text-2xl font-semibold text-foreground">
+                {field.text || field.label}
+              </h2>
+            </div>
+          );
+        case 'subheading':
+          return (
+            <div>
+              <h3 className="text-xl font-medium text-foreground">
+                {field.text || field.label}
+              </h3>
+            </div>
+          );
+        case 'divider':
+          return (
+            <div className="my-4">
+              <hr className="border-gray-300" />
+            </div>
+          );
+        case 'image':
+          return field.imageUrl ? (
+            <div className="text-center">
+              <img 
+                src={field.imageUrl} 
+                alt={field.label} 
+                className="max-w-full h-32 object-cover rounded border"
+                onError={(e) => {
+                  e.currentTarget.style.display = 'none';
+                }}
+              />
+            </div>
+          ) : (
+            <div className="p-4 border-2 border-dashed border-gray-300 rounded text-center text-gray-500 text-sm">
+              Image placeholder
+            </div>
           );
         default:
           return <Input disabled />;

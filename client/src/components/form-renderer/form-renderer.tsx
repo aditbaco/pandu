@@ -33,6 +33,10 @@ export function FormRenderer({ formData, onSubmitSuccess }: FormRendererProps) {
     const schemaObject: Record<string, z.ZodTypeAny> = {};
 
     fields.forEach((field) => {
+      // Skip display fields - they don't need validation
+      if (['title', 'heading', 'subheading', 'divider', 'image'].includes(field.type)) {
+        return;
+      }
       let fieldSchema: z.ZodTypeAny;
 
       switch (field.type) {
@@ -75,10 +79,12 @@ export function FormRenderer({ formData, onSubmitSuccess }: FormRendererProps) {
   const validationSchema = createValidationSchema(formData.fields);
   const form = useForm({
     resolver: zodResolver(validationSchema),
-    defaultValues: formData.fields.reduce((acc, field) => {
-      acc[field.id] = field.type === 'checkbox' ? [] : '';
-      return acc;
-    }, {} as Record<string, any>),
+    defaultValues: formData.fields
+      .filter(field => !['title', 'heading', 'subheading', 'divider', 'image'].includes(field.type))
+      .reduce((acc, field) => {
+        acc[field.id] = field.type === 'checkbox' ? [] : '';
+        return acc;
+      }, {} as Record<string, any>),
   });
 
   const submitFormMutation = useMutation({
@@ -112,6 +118,60 @@ export function FormRenderer({ formData, onSubmitSuccess }: FormRendererProps) {
 
   const onSubmit = (data: any) => {
     submitFormMutation.mutate(data);
+  };
+
+  const renderDisplayField = (field: FormFieldType) => {
+    switch (field.type) {
+      case 'title':
+        return (
+          <div key={field.id} className="text-center mb-6">
+            <h1 className="text-4xl font-bold text-foreground">
+              {field.text || field.label}
+            </h1>
+          </div>
+        );
+      case 'heading':
+        return (
+          <div key={field.id} className="mb-4">
+            <h2 className="text-2xl font-semibold text-foreground">
+              {field.text || field.label}
+            </h2>
+          </div>
+        );
+      case 'subheading':
+        return (
+          <div key={field.id} className="mb-4">
+            <h3 className="text-xl font-medium text-foreground">
+              {field.text || field.label}
+            </h3>
+          </div>
+        );
+      case 'divider':
+        return (
+          <div key={field.id} className="my-6">
+            <hr className="border-gray-300" />
+          </div>
+        );
+      case 'image':
+        return field.imageUrl ? (
+          <div key={field.id} className="mb-6 text-center">
+            <img 
+              src={field.imageUrl} 
+              alt={field.label} 
+              className="max-w-full h-auto rounded-lg shadow-sm mx-auto"
+              onError={(e) => {
+                e.currentTarget.style.display = 'none';
+              }}
+            />
+          </div>
+        ) : (
+          <div key={field.id} className="mb-6 p-4 border-2 border-dashed border-gray-300 rounded-lg text-center text-gray-500">
+            <p>Image placeholder - URL not provided</p>
+          </div>
+        );
+      default:
+        return null;
+    }
   };
 
   const renderField = (field: FormFieldType) => {
@@ -218,6 +278,7 @@ export function FormRenderer({ formData, onSubmitSuccess }: FormRendererProps) {
                         {...formField}
                       />
                     );
+
                   default:
                     return <Input {...formField} />;
                 }
@@ -295,7 +356,13 @@ export function FormRenderer({ formData, onSubmitSuccess }: FormRendererProps) {
 
             {/* Form Fields */}
             <div className="space-y-6">
-              {formData.fields.map(renderField)}
+              {formData.fields.map((field) => {
+                // Display fields don't need form validation
+                if (['title', 'heading', 'subheading', 'divider', 'image'].includes(field.type)) {
+                  return renderDisplayField(field);
+                }
+                return renderField(field);
+              })}
             </div>
 
             {/* Submit Button */}
