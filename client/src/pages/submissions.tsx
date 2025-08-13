@@ -64,11 +64,20 @@ export default function Submissions() {
 
   const { data: submissions, isLoading } = useQuery<FormSubmission[]>({
     queryKey: ["/api/submissions", selectedFormId],
-    queryFn: () => {
+    queryFn: async () => {
       const url = selectedFormId === "all" ? "/api/submissions" : `/api/submissions?formId=${selectedFormId}`;
-      return fetch(url).then(res => res.json());
+      const response = await fetch(url);
+      if (!response.ok) {
+        throw new Error(`Failed to fetch submissions: ${response.statusText}`);
+      }
+      const data = await response.json();
+      // Ensure we always return an array
+      return Array.isArray(data) ? data : [];
     }
   });
+
+  // Always ensure submissions is an array
+  const submissionsArray = Array.isArray(submissions) ? submissions : [];
 
   const deleteSubmissionMutation = useMutation({
     mutationFn: async (submissionId: string) => {
@@ -91,7 +100,7 @@ export default function Submissions() {
   });
 
   const exportData = () => {
-    if (!submissions || submissions.length === 0) {
+    if (!submissionsArray || submissionsArray.length === 0) {
       toast({
         title: "No Data",
         description: "No submissions available to export",
@@ -104,7 +113,7 @@ export default function Submissions() {
     const headers = ["ID", "Form", "Submitted By", "Email", "Date", "Status", "Kunjungan", "Nopen", "Norm", "Oleh"];
     const csvContent = [
       headers.join(","),
-      ...submissions.map(submission => [
+      ...submissionsArray.map(submission => [
         submission.id,
         forms?.find(f => f.id === submission.formId)?.name || "Unknown Form",
         submission.oleh || submission.submittedBy || "Anonymous",
@@ -194,7 +203,7 @@ export default function Submissions() {
         </CardHeader>
         
         <CardContent className="p-0">
-          {!submissions || submissions.length === 0 ? (
+          {!submissionsArray || submissionsArray.length === 0 ? (
             <div className="text-center py-12">
               <Inbox className="h-12 w-12 mx-auto mb-4 text-gray-300" />
               <h3 className="text-lg font-medium text-gray-900 mb-2">No submissions found</h3>
@@ -218,7 +227,7 @@ export default function Submissions() {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {submissions.map((submission) => {
+                {submissionsArray.map((submission) => {
                   const form = forms?.find(f => f.id === submission.formId);
                   
                   return (
