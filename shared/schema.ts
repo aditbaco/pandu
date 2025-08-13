@@ -30,7 +30,7 @@ export const formSubmissions = pgTable("form_submissions", {
   status: text("status", { enum: ["completed", "in_review", "processed"] }).notNull().default("completed"),
   createdAt: timestamp("created_at").defaultNow().notNull(),
   kunjunganId: char("kunjungan_id", { length: 19 }),
-  nopen: char("nopen", { length: 11 }),
+  nopen: char("nopen", { length: 10 }),
   norm: integer("norm"),
   oleh: integer("oleh"),
 });
