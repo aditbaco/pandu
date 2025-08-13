@@ -11,6 +11,9 @@ PANDU (Sistem Pendukung Rekam Medis Terpadu) is a full-stack web application tha
 - **Rebranding to PANDU**: Changed application name from FormCraft to PANDU (Sistem Pendukung Rekam Medis Terpadu) with new logo integration
 - **Improved Radio Buttons**: Updated radio button layout to display in 3-column grid for better space utilization
 - **Mobile-Responsive Design**: Completed full mobile optimization across all pages and components
+- **Added Search Functionality**: Real-time search on forms-with-params page with filtering by form name and description
+- **Enhanced Navigation**: Added "Kembali ke Daftar Form" button on form submission pages to preserve medical workflow parameters
+- **Environment Configuration**: Created .env.example file with all necessary environment variables for application setup
 
 # User Preferences
 
@@ -74,5 +77,6 @@ Preferred communication style: Simple, everyday language.
 
 ## Runtime Environment
 - **Deployment**: Replit-optimized with cartographer plugin for development environment
-- **Environment Variables**: DATABASE_URL for database connection configuration
+- **Environment Variables**: DATABASE_URL, PGHOST, PGPORT, PGUSER, PGPASSWORD, PGDATABASE for database configuration
 - **Process Management**: Development and production scripts with proper environment handling
+- **Configuration**: .env.example file provided with all necessary environment variables for setup
