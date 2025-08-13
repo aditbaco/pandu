@@ -146,7 +146,9 @@ export default function Dashboard() {
                         </div>
                       </Link>
                       <div className="text-right">
-                        <p className="text-sm font-medium text-foreground">0 submissions</p>
+                        <p className="text-sm font-medium text-foreground">
+                          {form.submissionCount || 0} submission{(form.submissionCount || 0) !== 1 ? 's' : ''}
+                        </p>
                         <p className={`text-xs ${form.status === 'active' ? 'text-success' : 'text-gray-400'}`}>
                           {form.status === 'active' ? 'Active' : 'Inactive'}
                         </p>

@@ -7,7 +7,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Forms routes
   app.get("/api/forms", async (req, res) => {
     try {
-      const forms = await storage.getForms();
+      const forms = await storage.getFormsWithSubmissionCount();
       res.json(forms);
     } catch (error) {
       res.status(500).json({ message: "Failed to fetch forms" });

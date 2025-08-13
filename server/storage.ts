@@ -10,7 +10,7 @@ import {
   type InsertFormSubmission 
 } from "@shared/schema";
 import { db } from "./db";
-import { eq, desc } from "drizzle-orm";
+import { eq, desc, count, sql } from "drizzle-orm";
 
 export interface IStorage {
   getUser(id: string): Promise<User | undefined>;
@@ -19,6 +19,7 @@ export interface IStorage {
   
   // Forms
   getForms(): Promise<Form[]>;
+  getFormsWithSubmissionCount(): Promise<(Form & { submissionCount: number })[]>;
   getForm(id: string): Promise<Form | undefined>;
   getFormBySlug(slug: string): Promise<Form | undefined>;
   createForm(form: InsertForm): Promise<Form>;
@@ -53,6 +54,27 @@ export class DatabaseStorage implements IStorage {
 
   async getForms(): Promise<Form[]> {
     return await db.select().from(forms).orderBy(desc(forms.createdAt));
+  }
+
+  async getFormsWithSubmissionCount(): Promise<(Form & { submissionCount: number })[]> {
+    const result = await db
+      .select({
+        id: forms.id,
+        name: forms.name,
+        description: forms.description,
+        fields: forms.fields,
+        slug: forms.slug,
+        status: forms.status,
+        createdAt: forms.createdAt,
+        updatedAt: forms.updatedAt,
+        submissionCount: sql<number>`COALESCE(COUNT(${formSubmissions.id}), 0)`.as('submissionCount')
+      })
+      .from(forms)
+      .leftJoin(formSubmissions, eq(forms.id, formSubmissions.formId))
+      .groupBy(forms.id)
+      .orderBy(desc(forms.createdAt));
+    
+    return result;
   }
 
   async getForm(id: string): Promise<Form | undefined> {
