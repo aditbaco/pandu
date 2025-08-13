@@ -40,11 +40,17 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   app.post("/api/forms", async (req, res) => {
     try {
+      console.log("Creating form with data:", JSON.stringify(req.body, null, 2));
       const validatedData = insertFormSchema.parse(req.body);
+      console.log("Validated data:", JSON.stringify(validatedData, null, 2));
       const form = await storage.createForm(validatedData);
+      console.log("Form created successfully:", form.id);
       res.status(201).json(form);
     } catch (error) {
+      console.error("Error creating form:", error);
       if (error instanceof Error) {
+        console.error("Error message:", error.message);
+        console.error("Error stack:", error.stack);
         res.status(400).json({ message: error.message });
       } else {
         res.status(500).json({ message: "Failed to create form" });
