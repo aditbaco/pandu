@@ -165,19 +165,21 @@ export function FormRenderer({ formData, onSubmitSuccess }: FormRendererProps) {
                   case 'radio':
                     return (
                       <RadioGroup value={formField.value} onValueChange={formField.onChange}>
-                        {field.options?.map((option, idx) => (
-                          <div key={idx} className="flex items-center space-x-2">
-                            <RadioGroupItem value={option} id={`${field.id}-${idx}`} />
-                            <Label htmlFor={`${field.id}-${idx}`} className="text-sm">
-                              {option}
-                            </Label>
-                          </div>
-                        ))}
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                          {field.options?.map((option, idx) => (
+                            <div key={idx} className="flex items-center space-x-2">
+                              <RadioGroupItem value={option} id={`${field.id}-${idx}`} />
+                              <Label htmlFor={`${field.id}-${idx}`} className="text-sm">
+                                {option}
+                              </Label>
+                            </div>
+                          ))}
+                        </div>
                       </RadioGroup>
                     );
                   case 'checkbox':
                     return (
-                      <div className="space-y-2">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
                         {field.options?.map((option, idx) => (
                           <div key={idx} className="flex items-center space-x-2">
                             <Checkbox
