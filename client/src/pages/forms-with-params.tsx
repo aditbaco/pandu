@@ -1,13 +1,16 @@
+import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useRoute, Link } from "wouter";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { FileText, Calendar, ArrowLeft } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { FileText, Calendar, ArrowLeft, Search } from "lucide-react";
 import { Form } from "@shared/schema";
 
 export function FormsWithParams() {
   const [match, params] = useRoute("/forms/:kunjunganId/:nopen/:norm/:oleh");
+  const [searchQuery, setSearchQuery] = useState("");
   
   // Extract URL parameters
   const kunjunganId = params?.kunjunganId;
@@ -48,6 +51,12 @@ export function FormsWithParams() {
   }
 
   const activeForms = forms.filter(form => form.status === 'active');
+  
+  // Filter forms based on search query
+  const filteredForms = activeForms.filter(form => 
+    form.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    (form.description && form.description.toLowerCase().includes(searchQuery.toLowerCase()))
+  );
 
   return (
     <div className="min-h-screen bg-gray-50 py-6 lg:py-12">
@@ -95,16 +104,44 @@ export function FormsWithParams() {
           </CardContent>
         </Card>
 
+        {/* Search Box */}
+        <Card className="mb-6">
+          <CardContent className="p-6">
+            <div className="relative">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+              <Input
+                type="text"
+                placeholder="Cari form berdasarkan nama atau deskripsi..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="pl-10"
+              />
+            </div>
+            {searchQuery && (
+              <p className="text-sm text-gray-600 mt-2">
+                Ditemukan {filteredForms.length} form dari {activeForms.length} form yang tersedia
+              </p>
+            )}
+          </CardContent>
+        </Card>
+
         {/* Forms Grid */}
-        {activeForms.length === 0 ? (
+        {filteredForms.length === 0 ? (
           <div className="text-center py-12">
             <FileText className="mx-auto h-12 w-12 text-gray-400 mb-4" />
-            <h3 className="text-lg font-medium text-gray-900 mb-2">No forms available</h3>
-            <p className="text-gray-600">There are currently no active forms to display.</p>
+            <h3 className="text-lg font-medium text-gray-900 mb-2">
+              {searchQuery ? "No forms found" : "No forms available"}
+            </h3>
+            <p className="text-gray-600">
+              {searchQuery 
+                ? `Tidak ditemukan form yang sesuai dengan pencarian "${searchQuery}"`
+                : "There are currently no active forms to display."
+              }
+            </p>
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {activeForms.map((form) => (
+            {filteredForms.map((form) => (
               <Card key={form.id} className="hover:shadow-lg transition-shadow duration-200">
                 <CardHeader>
                   <div className="flex items-start justify-between">
