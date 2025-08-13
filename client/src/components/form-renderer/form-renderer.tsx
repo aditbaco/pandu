@@ -377,7 +377,7 @@ export function FormRenderer({ formData, onSubmitSuccess }: FormRendererProps) {
                 ) : (
                   <>
                     <Send className="mr-2" size={16} />
-                    Submit Form
+                    Submit
                   </>
                 )}
               </Button>
