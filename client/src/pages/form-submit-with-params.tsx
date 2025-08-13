@@ -1,28 +1,13 @@
 import { useRoute } from "wouter";
-import { useQuery, useMutation } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { Label } from "@/components/ui/label";
-import { Checkbox } from "@/components/ui/checkbox";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import { AlertCircle, CheckCircle, Loader2 } from "lucide-react";
-import { Alert, AlertDescription } from "@/components/ui/alert";
-import { apiRequest, queryClient } from "@/lib/queryClient";
-import { useToast } from "@/hooks/use-toast";
-import type { Form as FormType, FormSubmission } from "@shared/schema";
-import type { FormField as FormFieldType } from "@/types/form";
+import { FormRenderer } from "@/components/form-renderer/form-renderer";
+import { AlertCircle, CheckCircle } from "lucide-react";
+import type { Form as FormType } from "@shared/schema";
 
 export function FormSubmitWithParams() {
   const [match, params] = useRoute("/:formSlug/:kunjunganId/:nopen/:norm/:oleh");
-  const [submissionData, setSubmissionData] = useState<Record<string, any>>({});
   const [isSubmitted, setIsSubmitted] = useState(false);
 
   // Extract URL parameters
@@ -38,125 +23,20 @@ export function FormSubmitWithParams() {
     enabled: !!formSlug,
   });
 
-  const { toast } = useToast();
-
-  // Create dynamic validation schema based on form fields
-  const createValidationSchema = (fields: FormFieldType[]) => {
-    const schemaObject: Record<string, z.ZodTypeAny> = {};
-
-    fields.forEach((field) => {
-      // Skip display fields - they don't need validation
-      if (['title', 'heading', 'subheading', 'divider', 'image'].includes(field.type)) {
-        return;
-      }
-      let fieldSchema: z.ZodTypeAny;
-
-      switch (field.type) {
-        case 'email':
-          fieldSchema = z.string().email('Please enter a valid email address');
-          break;
-        case 'number':
-          fieldSchema = z.string().refine((val) => !isNaN(Number(val)), 'Please enter a valid number');
-          break;
-        case 'date':
-          fieldSchema = z.string().refine((val) => !isNaN(Date.parse(val)), 'Please enter a valid date');
-          break;
-        case 'checkbox':
-          fieldSchema = z.array(z.string()).optional();
-          break;
-        default:
-          fieldSchema = z.string();
-      }
-
-      if (field.required && field.type !== 'checkbox') {
-        fieldSchema = fieldSchema.refine((val) => val && val.toString().trim() !== '', `${field.label} is required`);
-      }
-
-      schemaObject[field.id] = fieldSchema;
-    });
-
-    return z.object(schemaObject);
-  };
-
-  const formFields = form && Array.isArray(form.fields) ? form.fields as FormFieldType[] : [];
-  const validationSchema = formFields.length > 0 ? createValidationSchema(formFields) : z.object({});
-
-  const reactForm = useForm({
-    resolver: zodResolver(validationSchema),
-    defaultValues: formFields.reduce((acc, field) => {
-      if (['title', 'heading', 'subheading', 'divider', 'image'].includes(field.type)) {
-        return acc;
-      }
-      acc[field.id] = field.type === 'checkbox' ? [] : '';
-      return acc;
-    }, {} as Record<string, any>),
-  });
-
-  // Form submission mutation with URL parameters
-  const submitMutation = useMutation({
-    mutationFn: async (data: Record<string, any>) => {
-      if (!form) throw new Error('Form not found');
-      
-      const submissionData = {
-        formId: form.id,
-        data,
-        submittedBy: oleh || undefined, // Auto-fill submitted by with oleh parameter
-        kunjunganId: kunjunganId || undefined,
-        nopen: nopen || undefined,
-        norm: norm ? parseInt(norm, 10) : undefined,
-        oleh: oleh ? parseInt(oleh, 10) : undefined,
-      };
-
-      const response = await apiRequest('POST', '/api/form-submissions', submissionData);
-      return response.json();
-    },
-    onSuccess: () => {
-      setIsSubmitted(true);
-      toast({
-        title: "Success",
-        description: "Form submitted successfully!",
-      });
-      queryClient.invalidateQueries({ queryKey: ['/api/form-submissions'] });
-    },
-    onError: (error) => {
-      toast({
-        title: "Error",
-        description: error instanceof Error ? error.message : 'Failed to submit form',
-        variant: "destructive",
-      });
-    },
-  });
-
-  const onSubmit = (data: Record<string, any>) => {
-    submitMutation.mutate(data);
-  };
-
-
-
-
-
-  if (!match) {
-    return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
-        <Card className="w-full max-w-md">
-          <CardHeader>
-            <CardTitle className="text-red-600">Invalid URL</CardTitle>
-            <CardDescription>
-              The URL format should be: /kunjungan_id/oleh/form_slug
-            </CardDescription>
-          </CardHeader>
-        </Card>
-      </div>
-    );
-  }
-
   if (isLoading) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
         <Card className="w-full max-w-md">
-          <CardContent className="flex items-center justify-center p-8">
-            <Loader2 className="h-8 w-8 animate-spin text-primary" />
-            <span className="ml-2">Loading form...</span>
+          <CardContent className="p-8">
+            <div className="animate-pulse space-y-4">
+              <div className="h-8 bg-gray-200 rounded w-3/4"></div>
+              <div className="h-4 bg-gray-200 rounded w-1/2"></div>
+              <div className="space-y-3">
+                {[...Array(3)].map((_, i) => (
+                  <div key={i} className="h-16 bg-gray-200 rounded"></div>
+                ))}
+              </div>
+            </div>
           </CardContent>
         </Card>
       </div>
@@ -208,6 +88,14 @@ export function FormSubmitWithParams() {
     );
   }
 
+  const formData = {
+    id: form.id,
+    name: form.name,
+    description: form.description || "",
+    fields: Array.isArray(form.fields) ? form.fields : [],
+    status: form.status,
+  };
+
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="container mx-auto p-4 max-w-4xl">
@@ -237,182 +125,18 @@ export function FormSubmitWithParams() {
           </CardContent>
         </Card>
 
-        {/* Form */}
-        <Card>
-          <CardContent className="p-6">
-            {submitMutation.error && (
-              <Alert className="mb-6">
-                <AlertCircle className="h-4 w-4" />
-                <AlertDescription>
-                  {submitMutation.error instanceof Error
-                    ? submitMutation.error.message
-                    : 'An error occurred while submitting the form'}
-                </AlertDescription>
-              </Alert>
-            )}
-
-            {form && (
-              <Form {...reactForm}>
-                <form onSubmit={reactForm.handleSubmit(onSubmit)} className="space-y-6">
-                  {formFields.map((field) => {
-                    // Skip display fields - render them as static elements
-                    if (field.type === 'title') {
-                      return (
-                        <div key={field.id} className="text-center">
-                          <h1 className="text-3xl font-bold text-gray-900 mb-2">
-                            {field.text || field.label}
-                          </h1>
-                        </div>
-                      );
-                    }
-
-                    if (field.type === 'heading') {
-                      return (
-                        <div key={field.id}>
-                          <h2 className="text-2xl font-semibold text-gray-800 mb-3">
-                            {field.text || field.label}
-                          </h2>
-                        </div>
-                      );
-                    }
-
-                    if (field.type === 'subheading') {
-                      return (
-                        <div key={field.id}>
-                          <h3 className="text-lg font-medium text-gray-700 mb-2">
-                            {field.text || field.label}
-                          </h3>
-                        </div>
-                      );
-                    }
-
-                    if (field.type === 'divider') {
-                      return (
-                        <div key={field.id} className="my-6">
-                          <hr className="border-gray-300" />
-                        </div>
-                      );
-                    }
-
-                    if (field.type === 'image') {
-                      return (
-                        <div key={field.id} className="text-center">
-                          {field.imageUrl && (
-                            <img 
-                              src={field.imageUrl} 
-                              alt={field.label || 'Form image'} 
-                              className="max-w-full h-auto mx-auto rounded-lg"
-                            />
-                          )}
-                        </div>
-                      );
-                    }
-
-                    // Render input fields
-                    return (
-                      <FormField
-                        key={field.id}
-                        control={reactForm.control}
-                        name={field.id}
-                        render={({ field: formField }) => (
-                          <FormItem>
-                            <FormLabel className={field.required ? "required" : ""}>
-                              {field.label}
-                              {field.required && <span className="text-red-500 ml-1">*</span>}
-                            </FormLabel>
-                            <FormControl>
-                              {field.type === 'textarea' ? (
-                                <Textarea
-                                  placeholder={field.placeholder}
-                                  {...formField}
-                                />
-                              ) : field.type === 'select' ? (
-                                <Select
-                                  onValueChange={formField.onChange}
-                                  value={formField.value}
-                                >
-                                  <SelectTrigger>
-                                    <SelectValue placeholder={field.placeholder || "Select an option"} />
-                                  </SelectTrigger>
-                                  <SelectContent>
-                                    {field.options?.map((option) => (
-                                      <SelectItem key={option} value={option}>
-                                        {option}
-                                      </SelectItem>
-                                    ))}
-                                  </SelectContent>
-                                </Select>
-                              ) : field.type === 'radio' ? (
-                                <RadioGroup
-                                  onValueChange={formField.onChange}
-                                  value={formField.value}
-                                >
-                                  <div className="grid grid-cols-3 gap-4">
-                                    {field.options?.map((option) => (
-                                      <div key={option} className="flex items-center space-x-2">
-                                        <RadioGroupItem value={option} id={`${field.id}-${option}`} />
-                                        <Label htmlFor={`${field.id}-${option}`}>{option}</Label>
-                                      </div>
-                                    ))}
-                                  </div>
-                                </RadioGroup>
-                              ) : field.type === 'checkbox' ? (
-                                <div className="space-y-2">
-                                  {field.options?.map((option) => (
-                                    <div key={option} className="flex items-center space-x-2">
-                                      <Checkbox
-                                        id={`${field.id}-${option}`}
-                                        checked={formField.value?.includes(option)}
-                                        onCheckedChange={(checked) => {
-                                          const currentValue = formField.value || [];
-                                          if (checked) {
-                                            formField.onChange([...currentValue, option]);
-                                          } else {
-                                            formField.onChange(
-                                              currentValue.filter((item: string) => item !== option)
-                                            );
-                                          }
-                                        }}
-                                      />
-                                      <Label htmlFor={`${field.id}-${option}`}>{option}</Label>
-                                    </div>
-                                  ))}
-                                </div>
-                              ) : (
-                                <Input
-                                  type={field.type === 'number' ? 'number' : field.type === 'email' ? 'email' : field.type === 'date' ? 'date' : 'text'}
-                                  placeholder={field.placeholder}
-                                  {...formField}
-                                />
-                              )}
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                    );
-                  })}
-
-                  <Button 
-                    type="submit" 
-                    className="w-full"
-                    disabled={submitMutation.isPending}
-                  >
-                    {submitMutation.isPending ? (
-                      <>
-                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                        Submitting...
-                      </>
-                    ) : (
-                      'Submit Form'
-                    )}
-                  </Button>
-                </form>
-              </Form>
-            )}
-          </CardContent>
-        </Card>
+        {/* Form using FormRenderer with URL parameters */}
+        <FormRenderer 
+          formData={formData} 
+          kunjunganId={kunjunganId}
+          nopen={nopen}
+          norm={norm}
+          oleh={oleh}
+          onSubmitSuccess={() => setIsSubmitted(true)}
+        />
       </div>
     </div>
   );
 }
+
+export default FormSubmitWithParams;

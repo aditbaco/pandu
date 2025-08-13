@@ -20,11 +20,20 @@ import { CheckCircle, Send } from "lucide-react";
 interface FormRendererProps {
   formData: FormData;
   onSubmitSuccess?: () => void;
+  kunjunganId?: string;
+  nopen?: string;
+  norm?: string;
+  oleh?: string;
 }
 
-export function FormRenderer({ formData, onSubmitSuccess }: FormRendererProps) {
+export function FormRenderer({ formData, onSubmitSuccess, kunjunganId, nopen, norm, oleh }: FormRendererProps) {
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const [submitterInfo, setSubmitterInfo] = useState({ name: "", email: "" });
+  const [medicalInfo, setMedicalInfo] = useState({
+    kunjungan: kunjunganId || "",
+    nopen: nopen || "",
+    norm: norm || "",
+    oleh: oleh || ""
+  });
   const { toast } = useToast();
   const queryClient = useQueryClient();
 
@@ -92,8 +101,10 @@ export function FormRenderer({ formData, onSubmitSuccess }: FormRendererProps) {
       const response = await apiRequest("POST", "/api/submissions", {
         formId: formData.id,
         data,
-        submittedBy: submitterInfo.name || null,
-        submittedByEmail: submitterInfo.email || null,
+        kunjunganId: medicalInfo.kunjungan,
+        nopen: medicalInfo.nopen,
+        norm: medicalInfo.norm ? parseInt(medicalInfo.norm) : null,
+        oleh: medicalInfo.oleh ? parseInt(medicalInfo.oleh) : null,
         status: "completed",
       });
       return response.json();
@@ -117,6 +128,40 @@ export function FormRenderer({ formData, onSubmitSuccess }: FormRendererProps) {
   });
 
   const onSubmit = (data: any) => {
+    // Validate medical information
+    if (!medicalInfo.kunjungan.trim()) {
+      toast({
+        title: "Error",
+        description: "Kunjungan harus diisi",
+        variant: "destructive",
+      });
+      return;
+    }
+    if (!medicalInfo.nopen.trim()) {
+      toast({
+        title: "Error", 
+        description: "Nopen harus diisi",
+        variant: "destructive",
+      });
+      return;
+    }
+    if (!medicalInfo.norm.trim()) {
+      toast({
+        title: "Error",
+        description: "Norm harus diisi", 
+        variant: "destructive",
+      });
+      return;
+    }
+    if (!medicalInfo.oleh.trim()) {
+      toast({
+        title: "Error",
+        description: "Oleh harus diisi",
+        variant: "destructive",
+      });
+      return;
+    }
+    
     submitFormMutation.mutate(data);
   };
 
@@ -323,32 +368,58 @@ export function FormRenderer({ formData, onSubmitSuccess }: FormRendererProps) {
       <CardContent>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-            {/* Submitter Information */}
-            <div className="bg-gray-50 p-4 rounded-lg space-y-4">
-              <h3 className="text-lg font-medium text-foreground">Contact Information</h3>
+            {/* Medical Information */}
+            <div className="bg-blue-50 p-4 rounded-lg space-y-4">
+              <h3 className="text-lg font-medium text-foreground">Informasi Medis</h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <Label htmlFor="submitter-name" className="text-sm font-medium">
-                    Your Name
+                  <Label htmlFor="kunjungan" className="text-sm font-medium">
+                    Kunjungan <span className="text-red-500">*</span>
                   </Label>
                   <Input
-                    id="submitter-name"
+                    id="kunjungan"
                     type="text"
-                    placeholder="Enter your name"
-                    value={submitterInfo.name}
-                    onChange={(e) => setSubmitterInfo(prev => ({ ...prev, name: e.target.value }))}
+                    placeholder="Masukkan ID kunjungan"
+                    value={medicalInfo.kunjungan}
+                    onChange={(e) => setMedicalInfo(prev => ({ ...prev, kunjungan: e.target.value }))}
+                    maxLength={19}
                   />
                 </div>
                 <div>
-                  <Label htmlFor="submitter-email" className="text-sm font-medium">
-                    Email Address
+                  <Label htmlFor="nopen" className="text-sm font-medium">
+                    Nopen <span className="text-red-500">*</span>
                   </Label>
                   <Input
-                    id="submitter-email"
-                    type="email"
-                    placeholder="Enter your email"
-                    value={submitterInfo.email}
-                    onChange={(e) => setSubmitterInfo(prev => ({ ...prev, email: e.target.value }))}
+                    id="nopen"
+                    type="text"
+                    placeholder="Masukkan nopen"
+                    value={medicalInfo.nopen}
+                    onChange={(e) => setMedicalInfo(prev => ({ ...prev, nopen: e.target.value }))}
+                    maxLength={10}
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="norm" className="text-sm font-medium">
+                    Norm <span className="text-red-500">*</span>
+                  </Label>
+                  <Input
+                    id="norm"
+                    type="number"
+                    placeholder="Masukkan norm"
+                    value={medicalInfo.norm}
+                    onChange={(e) => setMedicalInfo(prev => ({ ...prev, norm: e.target.value }))}
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="oleh" className="text-sm font-medium">
+                    Oleh <span className="text-red-500">*</span>
+                  </Label>
+                  <Input
+                    id="oleh"
+                    type="number"
+                    placeholder="Masukkan ID pengguna"
+                    value={medicalInfo.oleh}
+                    onChange={(e) => setMedicalInfo(prev => ({ ...prev, oleh: e.target.value }))}
                   />
                 </div>
               </div>
