@@ -1,5 +1,6 @@
 import { Link, useLocation } from "wouter";
 import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import {
   LayoutDashboard,
@@ -9,7 +10,9 @@ import {
   BarChart3,
   Users,
   Settings,
-  Box
+  Box,
+  Menu,
+  X
 } from "lucide-react";
 
 const navigationItems = [
@@ -61,7 +64,7 @@ interface SidebarProps {
   onToggle: () => void;
 }
 
-export function Sidebar({ expanded }: SidebarProps) {
+export function Sidebar({ expanded, onToggle }: SidebarProps) {
   const [location] = useLocation();
 
   return (
@@ -69,18 +72,32 @@ export function Sidebar({ expanded }: SidebarProps) {
       "bg-white border-r border-border shadow-sm transition-all duration-300",
       expanded ? "w-16 lg:w-64" : "w-16"
     )}>
-      <div className="p-4 border-b border-border">
-        <div className={cn(
-          "flex items-center",
-          expanded ? "lg:space-x-2" : "justify-center lg:justify-start lg:space-x-2"
-        )}>
-          <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
-            <Box className="text-white" size={16} />
+      <div className="p-4 border-b border-border relative">
+        <div className="flex items-center justify-between">
+          <div className={cn(
+            "flex items-center",
+            expanded ? "lg:space-x-2" : "justify-center lg:space-x-2 w-full"
+          )}>
+            <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
+              <Box className="text-white" size={16} />
+            </div>
+            <span className={cn(
+              "text-lg font-semibold text-foreground whitespace-nowrap",
+              expanded ? "hidden lg:block" : "hidden"
+            )}>FormCraft</span>
           </div>
-          <span className={cn(
-            "text-lg font-semibold text-foreground whitespace-nowrap",
-            expanded ? "hidden lg:block" : "hidden"
-          )}>FormCraft</span>
+          {/* Toggle button - always visible on desktop when expanded */}
+          <Button 
+            variant="ghost" 
+            size="sm" 
+            onClick={onToggle}
+            className={cn(
+              "p-1.5 h-8 w-8 hidden lg:flex shrink-0",
+              expanded ? "" : "absolute top-4 right-4"
+            )}
+          >
+            {expanded ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
+          </Button>
         </div>
       </div>
       

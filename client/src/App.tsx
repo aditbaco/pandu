@@ -57,8 +57,6 @@ function App() {
             <Header 
               title={currentRoute.title} 
               subtitle={currentRoute.subtitle}
-              onSidebarToggle={() => setSidebarExpanded(!sidebarExpanded)}
-              sidebarExpanded={sidebarExpanded}
             />
             <main className="h-full overflow-y-auto">
               <Router />
