@@ -47,7 +47,7 @@ function App() {
   const [location] = useLocation();
   const [sidebarExpanded, setSidebarExpanded] = useState(true);
 
-  const currentRoute = routeConfig[location] || { title: "FormCraft", subtitle: "Build amazing forms with drag and drop" };
+  const currentRoute = routeConfig[location] || { title: "PANDU", subtitle: "Platform Aplikasi Nusantara Data Unified" };
 
   return (
     <QueryClientProvider client={queryClient}>

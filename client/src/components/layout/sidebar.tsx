@@ -72,13 +72,15 @@ export function Sidebar({ expanded, onToggle }: SidebarProps) {
             "flex items-center",
             expanded ? "lg:space-x-2" : "justify-center lg:space-x-2 w-full"
           )}>
-            <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
-              <Box className="text-white" size={16} />
-            </div>
+            <img 
+              src="/attached_assets/pandu-logo.jpg" 
+              alt="PANDU Logo" 
+              className="w-8 h-8 rounded-lg object-cover"
+            />
             <span className={cn(
               "text-lg font-semibold text-foreground whitespace-nowrap",
               expanded ? "hidden lg:block" : "hidden"
-            )}>FormCraft</span>
+            )}>PANDU</span>
           </div>
           {/* Toggle button - always visible on desktop when expanded */}
           <Button 
