@@ -1,9 +1,10 @@
-import { useRoute } from "wouter";
+import { useRoute, Link } from "wouter";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 import { FormRenderer } from "@/components/form-renderer/form-renderer";
-import { AlertCircle, CheckCircle } from "lucide-react";
+import { AlertCircle, CheckCircle, ArrowLeft } from "lucide-react";
 import type { Form as FormType } from "@shared/schema";
 
 export function FormSubmitWithParams() {
@@ -102,10 +103,20 @@ export function FormSubmitWithParams() {
         {/* Header with URL parameters */}
         <Card className="mb-6">
           <CardHeader>
-            <CardTitle>{form.name}</CardTitle>
-            <CardDescription>
-              {form.description && <span>{form.description}</span>}
-            </CardDescription>
+            <div className="flex items-center justify-between">
+              <div>
+                <CardTitle>{form.name}</CardTitle>
+                <CardDescription>
+                  {form.description && <span>{form.description}</span>}
+                </CardDescription>
+              </div>
+              <Link href={`/forms/${kunjunganId}/${nopen}/${norm}/${oleh}`}>
+                <Button variant="outline">
+                  <ArrowLeft className="mr-2 h-4 w-4" />
+                  Kembali ke Daftar Form
+                </Button>
+              </Link>
+            </div>
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 text-sm">
