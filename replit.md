@@ -4,10 +4,11 @@ FormCraft is a full-stack web application that provides a comprehensive form bui
 
 ## Recent Changes (August 13, 2025)
 - **Updated Custom URL Routing**: Changed URL pattern to `/{form_slug}/{kunjungan_id}/{nopen}/{norm}/{oleh}` for better organization and parameter access
-- **Extended Database Schema**: Added new columns to form_submissions table (kunjungan_id, nopen, norm, oleh) for medical data tracking
+- **Extended Database Schema**: Added new columns to form_submissions table (kunjungan_id, nopen, norm, oleh) for medical data tracking, fixed nopen field to 10 characters
 - **Enhanced Submission Details**: Added kunjungan, nopen, and norm fields to submission detail view with auto-filled "submitted by" using oleh parameter
 - **Updated CSV Export**: Enhanced export functionality to include new medical fields (kunjungan, nopen, norm, oleh)
-- **Enhanced Sidebar**: Added collapsible sidebar functionality with toggle button positioned next to FormCraft logo
+- **Enhanced Sidebar**: Added collapsible sidebar functionality with toggle button positioned next to FormCraft logo, moved Form Builder to Settings section
+- **Improved Radio Buttons**: Updated radio button layout to display in 3-column grid for better space utilization
 - **Mobile-Responsive Design**: Completed full mobile optimization across all pages and components
 
 # User Preferences

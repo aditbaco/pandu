@@ -7,8 +7,6 @@ import {
   FileText,
   Plus,
   Inbox,
-  Users,
-  Settings,
   Box,
   Menu,
   X
@@ -17,13 +15,11 @@ import {
 const navigationItems = [
   { href: "/", label: "Dashboard", icon: LayoutDashboard },
   { href: "/forms", label: "Forms", icon: FileText },
-  { href: "/builder", label: "Form Builder", icon: Plus },
   { href: "/submissions", label: "Submissions", icon: Inbox },
 ];
 
 const settingsItems = [
-  { href: "/users", label: "Users", icon: Users },
-  { href: "/settings", label: "Settings", icon: Settings },
+  { href: "/builder", label: "Form Builder", icon: Plus },
 ];
 
 const SidebarItem = ({ item, isActive, expanded }: { item: any; isActive: boolean; expanded: boolean }) => {
