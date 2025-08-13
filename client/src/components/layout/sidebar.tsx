@@ -62,8 +62,8 @@ export function Sidebar({ expanded, onToggle }: SidebarProps) {
       "bg-white border-r border-border shadow-sm transition-all duration-300",
       expanded ? "w-16 lg:w-64" : "w-16"
     )}>
-      <div className="px-4 lg:px-6 py-4 border-b border-border relative">
-        <div className="flex items-center justify-between">
+      <div className="px-4 lg:px-6 py-4 border-b border-border relative min-h-[73px] flex items-center">
+        <div className="flex items-center justify-between w-full">
           <div className={cn(
             "flex items-center",
             expanded ? "lg:space-x-2" : "justify-center lg:space-x-2 w-full"
@@ -73,10 +73,13 @@ export function Sidebar({ expanded, onToggle }: SidebarProps) {
               alt="PANDU Logo" 
               className="w-8 h-8 rounded-lg object-cover"
             />
-            <span className={cn(
-              "text-xl lg:text-2xl font-semibold text-foreground whitespace-nowrap",
+            <div className={cn(
+              "flex flex-col",
               expanded ? "hidden lg:block" : "hidden"
-            )}>PANDU</span>
+            )}>
+              <span className="text-xl lg:text-2xl font-semibold text-foreground whitespace-nowrap">PANDU</span>
+              <span className="text-gray-500 text-sm hidden sm:block">Sistem Pendukung Rekam Medis</span>
+            </div>
           </div>
           {/* Toggle button - always visible on desktop when expanded */}
           <Button 
