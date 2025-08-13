@@ -347,12 +347,14 @@ export function FormSubmitWithParams() {
                                   onValueChange={formField.onChange}
                                   value={formField.value}
                                 >
-                                  {field.options?.map((option) => (
-                                    <div key={option} className="flex items-center space-x-2">
-                                      <RadioGroupItem value={option} id={`${field.id}-${option}`} />
-                                      <Label htmlFor={`${field.id}-${option}`}>{option}</Label>
-                                    </div>
-                                  ))}
+                                  <div className="grid grid-cols-3 gap-4">
+                                    {field.options?.map((option) => (
+                                      <div key={option} className="flex items-center space-x-2">
+                                        <RadioGroupItem value={option} id={`${field.id}-${option}`} />
+                                        <Label htmlFor={`${field.id}-${option}`}>{option}</Label>
+                                      </div>
+                                    ))}
+                                  </div>
                                 </RadioGroup>
                               ) : field.type === 'checkbox' ? (
                                 <div className="space-y-2">

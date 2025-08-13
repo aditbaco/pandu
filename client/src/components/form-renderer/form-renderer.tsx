@@ -225,7 +225,7 @@ export function FormRenderer({ formData, onSubmitSuccess }: FormRendererProps) {
                   case 'radio':
                     return (
                       <RadioGroup value={formField.value} onValueChange={formField.onChange}>
-                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                        <div className="grid grid-cols-3 gap-4">
                           {field.options?.map((option, idx) => (
                             <div key={idx} className="flex items-center space-x-2">
                               <RadioGroupItem value={option} id={`${field.id}-${idx}`} />
