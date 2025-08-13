@@ -23,7 +23,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import { FileText, Search, Plus, Edit, Eye, Copy, Trash2 } from "lucide-react";
+import { FileText, Search, Plus, Edit, Eye, Copy, Trash2, ExternalLink } from "lucide-react";
 import { Link } from "wouter";
 import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
@@ -193,6 +193,11 @@ export default function Forms() {
                     </TableCell>
                     <TableCell>
                       <div className="flex space-x-2">
+                        <Link href={`/form/${form.id}`}>
+                          <Button variant="ghost" size="sm" title="Fill Form">
+                            <ExternalLink className="h-4 w-4" />
+                          </Button>
+                        </Link>
                         <Button variant="ghost" size="sm" title="Edit">
                           <Edit className="h-4 w-4" />
                         </Button>

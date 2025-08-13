@@ -9,6 +9,7 @@ import Dashboard from "@/pages/dashboard";
 import Forms from "@/pages/forms";
 import FormBuilder from "@/pages/form-builder";
 import Submissions from "@/pages/submissions";
+import FormSubmit from "@/pages/form-submit";
 import NotFound from "@/pages/not-found";
 
 const routeConfig: Record<string, { title: string; subtitle: string }> = {
@@ -28,6 +29,7 @@ function Router() {
       <Route path="/forms" component={Forms} />
       <Route path="/builder" component={FormBuilder} />
       <Route path="/submissions" component={Submissions} />
+      <Route path="/form/:id" component={FormSubmit} />
       <Route path="/analytics" component={() => <div className="p-6">Analytics page coming soon</div>} />
       <Route path="/users" component={() => <div className="p-6">Users management coming soon</div>} />
       <Route path="/settings" component={() => <div className="p-6">Settings page coming soon</div>} />

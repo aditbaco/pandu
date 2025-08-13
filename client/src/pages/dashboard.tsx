@@ -130,11 +130,11 @@ export default function Dashboard() {
               </div>
             </CardHeader>
             <CardContent>
-              {recentForms && recentForms.length > 0 ? (
+              {Array.isArray(recentForms) && recentForms.length > 0 ? (
                 <div className="space-y-4">
                   {recentForms.slice(0, 3).map((form: any) => (
                     <div key={form.id} className="flex items-center justify-between py-3 border-b border-gray-50 last:border-b-0">
-                      <div className="flex items-center space-x-3">
+                      <Link href={`/form/${form.id}`} className="flex items-center space-x-3 flex-1 hover:bg-gray-50 p-2 rounded-lg transition-colors">
                         <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center">
                           <FileText className="text-primary" size={16} />
                         </div>
@@ -144,7 +144,7 @@ export default function Dashboard() {
                             Created {new Date(form.createdAt).toLocaleDateString()}
                           </p>
                         </div>
-                      </div>
+                      </Link>
                       <div className="text-right">
                         <p className="text-sm font-medium text-foreground">0 submissions</p>
                         <p className={`text-xs ${form.status === 'active' ? 'text-success' : 'text-gray-400'}`}>
