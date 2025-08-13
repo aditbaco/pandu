@@ -26,6 +26,18 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  app.get("/api/forms/slug/:slug", async (req, res) => {
+    try {
+      const form = await storage.getFormBySlug(req.params.slug);
+      if (!form) {
+        return res.status(404).json({ message: "Form not found" });
+      }
+      res.json(form);
+    } catch (error) {
+      res.status(500).json({ message: "Failed to fetch form by slug" });
+    }
+  });
+
   app.post("/api/forms", async (req, res) => {
     try {
       const validatedData = insertFormSchema.parse(req.body);
@@ -93,6 +105,20 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   app.post("/api/submissions", async (req, res) => {
+    try {
+      const validatedData = insertFormSubmissionSchema.parse(req.body);
+      const submission = await storage.createFormSubmission(validatedData);
+      res.status(201).json(submission);
+    } catch (error) {
+      if (error instanceof Error) {
+        res.status(400).json({ message: error.message });
+      } else {
+        res.status(500).json({ message: "Failed to create submission" });
+      }
+    }
+  });
+
+  app.post("/api/form-submissions", async (req, res) => {
     try {
       const validatedData = insertFormSubmissionSchema.parse(req.body);
       const submission = await storage.createFormSubmission(validatedData);

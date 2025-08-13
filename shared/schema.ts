@@ -1,5 +1,5 @@
 import { sql } from "drizzle-orm";
-import { pgTable, text, varchar, jsonb, timestamp, boolean, integer } from "drizzle-orm/pg-core";
+import { pgTable, text, varchar, jsonb, timestamp, boolean, integer, char } from "drizzle-orm/pg-core";
 import { relations } from "drizzle-orm";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
@@ -29,6 +29,10 @@ export const formSubmissions = pgTable("form_submissions", {
   submittedByEmail: text("submitted_by_email"),
   status: text("status", { enum: ["completed", "in_review", "processed"] }).notNull().default("completed"),
   createdAt: timestamp("created_at").defaultNow().notNull(),
+  kunjunganId: char("kunjungan_id", { length: 19 }),
+  nopen: char("nopen", { length: 11 }),
+  norm: integer("norm"),
+  oleh: integer("oleh"),
 });
 
 export const formsRelations = relations(forms, ({ many }) => ({
@@ -61,6 +65,10 @@ export const insertFormSubmissionSchema = createInsertSchema(formSubmissions).pi
   submittedBy: true,
   submittedByEmail: true,
   status: true,
+  kunjunganId: true,
+  nopen: true,
+  norm: true,
+  oleh: true,
 });
 
 export type InsertUser = z.infer<typeof insertUserSchema>;

@@ -20,6 +20,7 @@ export interface IStorage {
   // Forms
   getForms(): Promise<Form[]>;
   getForm(id: string): Promise<Form | undefined>;
+  getFormBySlug(slug: string): Promise<Form | undefined>;
   createForm(form: InsertForm): Promise<Form>;
   updateForm(id: string, form: Partial<InsertForm>): Promise<Form | undefined>;
   deleteForm(id: string): Promise<boolean>;
@@ -56,6 +57,11 @@ export class DatabaseStorage implements IStorage {
 
   async getForm(id: string): Promise<Form | undefined> {
     const [form] = await db.select().from(forms).where(eq(forms.id, id));
+    return form || undefined;
+  }
+
+  async getFormBySlug(slug: string): Promise<Form | undefined> {
+    const [form] = await db.select().from(forms).where(eq(forms.slug, slug));
     return form || undefined;
   }
 
