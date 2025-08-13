@@ -21,14 +21,16 @@ import type { Form as FormType, FormSubmission } from "@shared/schema";
 import type { FormField as FormFieldType } from "@/types/form";
 
 export function FormSubmitWithParams() {
-  const [match, params] = useRoute("/:kunjunganId/:oleh/:formSlug");
+  const [match, params] = useRoute("/:formSlug/:kunjunganId/:nopen/:norm/:oleh");
   const [submissionData, setSubmissionData] = useState<Record<string, any>>({});
   const [isSubmitted, setIsSubmitted] = useState(false);
 
   // Extract URL parameters
-  const kunjunganId = params?.kunjunganId;
-  const oleh = params?.oleh;
   const formSlug = params?.formSlug;
+  const kunjunganId = params?.kunjunganId;
+  const nopen = params?.nopen;
+  const norm = params?.norm;
+  const oleh = params?.oleh;
 
   // Fetch form data
   const { data: form, isLoading, error } = useQuery<FormType>({
@@ -100,6 +102,8 @@ export function FormSubmitWithParams() {
         data,
         submittedBy: oleh || undefined, // Auto-fill submitted by with oleh parameter
         kunjunganId: kunjunganId || undefined,
+        nopen: nopen || undefined,
+        norm: norm ? parseInt(norm, 10) : undefined,
         oleh: oleh ? parseInt(oleh, 10) : undefined,
       };
 
@@ -193,6 +197,8 @@ export function FormSubmitWithParams() {
           <CardContent>
             <div className="space-y-2 text-sm">
               <p><strong>Kunjungan ID:</strong> {kunjunganId}</p>
+              <p><strong>Nopen:</strong> {nopen}</p>
+              <p><strong>Norm:</strong> {norm}</p>
               <p><strong>Oleh:</strong> {oleh}</p>
               <p><strong>Form:</strong> {form.name}</p>
             </div>
@@ -214,9 +220,15 @@ export function FormSubmitWithParams() {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 text-sm">
               <div>
                 <strong>Kunjungan ID:</strong> {kunjunganId}
+              </div>
+              <div>
+                <strong>Nopen:</strong> {nopen}
+              </div>
+              <div>
+                <strong>Norm:</strong> {norm}
               </div>
               <div>
                 <strong>Oleh:</strong> {oleh}

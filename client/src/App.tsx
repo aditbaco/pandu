@@ -32,7 +32,7 @@ function Router() {
       <Route path="/builder" component={FormBuilder} />
       <Route path="/submissions" component={Submissions} />
       <Route path="/form/:id" component={FormSubmit} />
-      <Route path="/:kunjunganId/:oleh/:formSlug" component={FormSubmitWithParams} />
+      <Route path="/:formSlug/:kunjunganId/:nopen/:norm/:oleh" component={FormSubmitWithParams} />
       <Route path="/analytics" component={() => <div className="p-6">Analytics page coming soon</div>} />
       <Route path="/users" component={() => <div className="p-6">Users management coming soon</div>} />
       <Route path="/settings" component={() => <div className="p-6">Settings page coming soon</div>} />

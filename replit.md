@@ -3,7 +3,7 @@
 FormCraft is a full-stack web application that provides a comprehensive form building and management platform. The application allows users to create custom forms with drag-and-drop functionality, manage form submissions, and view analytics. Built with modern web technologies, it features a React frontend with TypeScript, an Express.js backend, and PostgreSQL database integration using Drizzle ORM.
 
 ## Recent Changes (August 13, 2025)
-- **Added Custom URL Routing**: Implemented specialized form submission URLs with pattern `/{kunjungan_id}/{oleh}/{form_slug}` for healthcare/medical form contexts
+- **Updated Custom URL Routing**: Changed URL pattern to `/{form_slug}/{kunjungan_id}/{nopen}/{norm}/{oleh}` for better organization and parameter access
 - **Extended Database Schema**: Added new columns to form_submissions table (kunjungan_id, nopen, norm, oleh) for medical data tracking
 - **Enhanced Submission Details**: Added kunjungan, nopen, and norm fields to submission detail view with auto-filled "submitted by" using oleh parameter
 - **Updated CSV Export**: Enhanced export functionality to include new medical fields (kunjungan, nopen, norm, oleh)
