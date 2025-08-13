@@ -47,7 +47,7 @@ function App() {
   const [location] = useLocation();
   const [sidebarExpanded, setSidebarExpanded] = useState(true);
 
-  const currentRoute = routeConfig[location] || { title: "PANDU", subtitle: "Platform Aplikasi Nusantara Data Unified" };
+  const currentRoute = routeConfig[location] || { title: "PANDU", subtitle: "Sistem Pendukung Rekam Medis Terpadu" };
 
   return (
     <QueryClientProvider client={queryClient}>

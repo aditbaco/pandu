@@ -1,6 +1,6 @@
 # Overview
 
-PANDU (Platform Aplikasi Nusantara Data Unified) is a full-stack web application that provides a comprehensive form building and management platform specialized for healthcare and medical form submissions. The application allows users to create custom forms with drag-and-drop functionality, manage form submissions with custom URL routing patterns, and view analytics. Built with modern web technologies, it features a React frontend with TypeScript, an Express.js backend, and PostgreSQL database integration using Drizzle ORM.
+PANDU (Sistem Pendukung Rekam Medis Terpadu) is a full-stack web application that provides a comprehensive form building and management platform specialized for healthcare and medical form submissions. The application allows users to create custom forms with drag-and-drop functionality, manage form submissions with custom URL routing patterns, and view analytics. Built with modern web technologies, it features a React frontend with TypeScript, an Express.js backend, and PostgreSQL database integration using Drizzle ORM.
 
 ## Recent Changes (August 13, 2025)
 - **Updated Custom URL Routing**: Changed URL pattern to `/{form_slug}/{kunjungan_id}/{nopen}/{norm}/{oleh}` for better organization and parameter access
@@ -8,7 +8,7 @@ PANDU (Platform Aplikasi Nusantara Data Unified) is a full-stack web application
 - **Enhanced Submission Details**: Added kunjungan, nopen, and norm fields to submission detail view with auto-filled "submitted by" using oleh parameter
 - **Updated CSV Export**: Enhanced export functionality to include new medical fields (kunjungan, nopen, norm, oleh)
 - **Enhanced Sidebar**: Added collapsible sidebar functionality with toggle button positioned next to PANDU logo, moved Form Builder to Settings section
-- **Rebranding to PANDU**: Changed application name from FormCraft to PANDU (Platform Aplikasi Nusantara Data Unified) with new logo integration
+- **Rebranding to PANDU**: Changed application name from FormCraft to PANDU (Sistem Pendukung Rekam Medis Terpadu) with new logo integration
 - **Improved Radio Buttons**: Updated radio button layout to display in 3-column grid for better space utilization
 - **Mobile-Responsive Design**: Completed full mobile optimization across all pages and components
 

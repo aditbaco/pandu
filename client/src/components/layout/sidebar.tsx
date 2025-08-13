@@ -73,7 +73,7 @@ export function Sidebar({ expanded, onToggle }: SidebarProps) {
             expanded ? "lg:space-x-2" : "justify-center lg:space-x-2 w-full"
           )}>
             <img 
-              src="/attached_assets/pandu-logo.jpg" 
+              src="/attached_assets/3a86f0bd-5e46-43a7-b2c7-88aa0a81f966_1755063262600.jpg" 
               alt="PANDU Logo" 
               className="w-8 h-8 rounded-lg object-cover"
             />
