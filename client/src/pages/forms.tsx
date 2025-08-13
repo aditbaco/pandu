@@ -204,15 +204,7 @@ export default function Forms() {
                               <Eye className="h-4 w-4" />
                             </Button>
                           </Link>
-                          <Button 
-                            variant="ghost" 
-                            size="sm" 
-                            title="Duplicate"
-                            onClick={() => duplicateFormMutation.mutate(form)}
-                            disabled={duplicateFormMutation.isPending}
-                          >
-                            <Copy className="h-4 w-4" />
-                          </Button>
+                          
                         </div>
                       </TableCell>
                     </TableRow>
@@ -271,15 +263,7 @@ export default function Forms() {
                             View
                           </Button>
                         </Link>
-                        <Button 
-                          variant="outline" 
-                          size="sm"
-                          onClick={() => duplicateFormMutation.mutate(form)}
-                          disabled={duplicateFormMutation.isPending}
-                        >
-                          <Copy className="mr-1 h-3 w-3" />
-                          Copy
-                        </Button>
+                        
                         <AlertDialog>
                           <AlertDialogTrigger asChild>
                             <Button variant="outline" size="sm">
