@@ -16,6 +16,7 @@ import NotFound from "@/pages/not-found";
 
 const routeConfig: Record<string, { title: string; subtitle: string }> = {
   "/": { title: "Dashboard", subtitle: "Manage your forms and submissions" },
+  "/dashboard": { title: "Dashboard", subtitle: "Manage your forms and submissions" },
   "/forms": { title: "Forms Management", subtitle: "Create, edit, and manage your forms" },
   "/builder": { title: "Form Builder", subtitle: "Drag and drop to create custom forms" },
   "/submissions": { title: "Submissions", subtitle: "View and manage form responses" },
@@ -28,6 +29,7 @@ function Router() {
   return (
     <Switch>
       <Route path="/" component={Dashboard} />
+      <Route path="/dashboard" component={Dashboard} />
       <Route path="/forms" component={Forms} />
       <Route path="/builder" component={FormBuilder} />
       <Route path="/submissions" component={Submissions} />

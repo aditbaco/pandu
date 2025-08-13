@@ -13,7 +13,7 @@ import {
 } from "lucide-react";
 
 const navigationItems = [
-  { href: "/", label: "Dashboard", icon: LayoutDashboard },
+  { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
   { href: "/forms", label: "Forms", icon: FileText },
   { href: "/submissions", label: "Submissions", icon: Inbox },
 ];
