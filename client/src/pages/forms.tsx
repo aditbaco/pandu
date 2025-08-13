@@ -198,9 +198,7 @@ export default function Forms() {
                               <ExternalLink className="h-4 w-4" />
                             </Button>
                           </Link>
-                          <Button variant="ghost" size="sm" title="Edit">
-                            <Edit className="h-4 w-4" />
-                          </Button>
+                          
                           <Link href={`/submissions?form=${form.id}`}>
                             <Button variant="ghost" size="sm" title="View Submissions">
                               <Eye className="h-4 w-4" />
@@ -292,10 +290,7 @@ export default function Forms() {
                             Fill
                           </Button>
                         </Link>
-                        <Button variant="outline" size="sm">
-                          <Edit className="mr-1 h-3 w-3" />
-                          Edit
-                        </Button>
+                        
                         <Link href={`/submissions?form=${form.id}`}>
                           <Button variant="outline" size="sm">
                             <Eye className="mr-1 h-3 w-3" />
