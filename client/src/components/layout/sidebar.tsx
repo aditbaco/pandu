@@ -25,7 +25,7 @@ const settingsItems = [
   { href: "/settings", label: "Settings", icon: Settings },
 ];
 
-const SidebarItem = ({ item, isActive }: { item: any; isActive: boolean }) => {
+const SidebarItem = ({ item, isActive, expanded }: { item: any; isActive: boolean; expanded: boolean }) => {
   const Icon = item.icon;
   
   return (
@@ -35,29 +35,40 @@ const SidebarItem = ({ item, isActive }: { item: any; isActive: boolean }) => {
           <div
             className={cn(
               "flex items-center px-3 py-2 rounded-lg transition-colors cursor-pointer",
-              "lg:space-x-3", // Space only on large screens
+              expanded ? "lg:space-x-3" : "justify-center lg:justify-start lg:space-x-3",
               isActive
                 ? "bg-primary/10 text-primary font-medium"
                 : "hover:bg-gray-50 text-gray-600"
             )}
           >
             <Icon size={16} className="flex-shrink-0" />
-            <span className="hidden lg:block">{item.label}</span>
+            <span className={cn(
+              "whitespace-nowrap",
+              expanded ? "hidden lg:block" : "hidden"
+            )}>{item.label}</span>
           </div>
         </Link>
       </TooltipTrigger>
-      <TooltipContent side="right" className="lg:hidden">
+      <TooltipContent side="right" className={expanded ? "lg:hidden" : ""}>
         {item.label}
       </TooltipContent>
     </Tooltip>
   );
 };
 
-export function Sidebar() {
+interface SidebarProps {
+  expanded: boolean;
+  onToggle: () => void;
+}
+
+export function Sidebar({ expanded }: SidebarProps) {
   const [location] = useLocation();
 
   return (
-    <div className="w-16 lg:w-64 bg-white border-r border-border shadow-sm">
+    <div className={cn(
+      "bg-white border-r border-border shadow-sm transition-all duration-300",
+      expanded ? "w-16 lg:w-64" : "w-16"
+    )}>
       <div className="p-4 border-b border-border">
         <div className="flex items-center lg:space-x-2">
           <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
